@@ -3,42 +3,43 @@
 ;;; =========================================================
 ;;; install
 
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-(add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/"))
-(package-initialize)
-;; (dolist
-;;     (package
-;;      '(
-;;        ;; basic
-;;        auto-complete fuzzy popup pos-tip
-;;        session
-;;        redo+
-;;        ;;; window, buffer
-;;        popwin
-;;        direx
-;;        ;;; looks
-;;        color-theme
-;;        tabbar
-;;
-;;        ;; programing
-;;        ;;; yasnippet
-;;        yasnippet
-;;        ;;; JavaScript
-;;        sws-mode jade-mode
-;;        js2-mode
-;;        ;;; Erlang
-;;        erlang
-;;        ;;; Common Lisp
-;;        slime
-;;        ;;; HTML
-;;        zencoding-mode
-;;
-;;        ;; documentation
-;;        markdown-mode
-;;        ))
-;;   (unless (package-installed-p package)
-;;     (package-install package)))
+(when (require 'package nil 'noerror)
+  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+  (add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/"))
+  (package-initialize)
+  (dolist
+      (package
+       '(
+         ;;; basic
+         auto-complete
+         fuzzy
+         popup
+         pos-tip
+         session
+         redo+
+         ;;; window, buffer
+         popwin
+         direx
+         ;;; looks
+         color-theme
+         ;; tabbar
+         ;;; programing
+         ;; yasnippet
+         yasnippet
+         ;;; JavaScript
+         ;; sws-mode jade-mode
+         ;; js2-mode
+         ;;; Erlang
+         ;; erlang
+         ;;; Common Lisp
+         ;; slime
+         ;;; HTML
+         zencoding-mode
+         ;;; documentation
+         ;; markdown-mode
+                       ))
+    (unless (package-installed-p package)
+      (package-install package))) )
 
 ;;; =========================================================
 ;;; environment
@@ -63,7 +64,7 @@
       (concat  "%b - emacs@" (system-name)))
 (set-frame-parameter (selected-frame) 'alpha '(1.0))
 (menu-bar-mode 0)
-(tool-bar-mode 0)
+;;(tool-bar-mode 0)
 (column-number-mode t)
 
 ;; linum
@@ -74,24 +75,24 @@
                     :height 0.8)
 
 ;; add directory name in buffer ;?
-(require 'uniquify)
-(setq uniquify-buffer-name-style 'forward)
-(setq uniquify-buffer-name-style 'post-forward-angle-brackets)
-(setq uniquify-ignore-buffers-re "*[^*]+*")
+(when (require 'uniquify nil 'noerror)
+  (setq uniquify-buffer-name-style 'forward)
+  (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
+  (setq uniquify-ignore-buffers-re "*[^*]+*") )
 
 ;; direx
-(require 'direx)
-(global-set-key (kbd "C-x C-j") 'direx:jump-to-directory-other-window)
-(setq direx:leaf-icon "   "
-      direx:open-icon " \x25bc"
-      direx:closed-icon " \x25b6")
+(when (require 'direx nil 'noerror)
+  (global-set-key (kbd "C-x C-j") 'direx:jump-to-directory-other-window)
+  (setq direx:leaf-icon "   "
+        direx:open-icon " \x25bc"
+        direx:closed-icon " \x25b6") )
 
 ;; popwin
-(require 'popwin)
-(setq display-buffer-function 'popwin:display-buffer)
-(push '(direx:direx-mode :position left :width 36 :dedicated t)
-      popwin:special-display-config)
-(push '("^\\*Backtrace\\*$" :regexp t) popwin:special-display-config)
+(when (require 'popwin nil 'noerror)
+  (setq display-buffer-function 'popwin:display-buffer)
+  (push '(direx:direx-mode :position left :width 36 :dedicated t)
+        popwin:special-display-config)
+  (push '("^\\*Backtrace\\*$" :regexp t) popwin:special-display-config) )
 
 ;; indent
 (setq-default indent-tabs-mode nil)
@@ -100,11 +101,11 @@
 ;; color
 
 ;; color-theme
-(require 'color-theme)
-(eval-after-load "color-theme"
-  '(progn
-     (color-theme-initialize)
-     (color-theme-simple-1)))
+(when (require 'color-theme nil 'noerror)
+  (eval-after-load "color-theme"
+    '(progn
+       (color-theme-initialize)
+       (color-theme-simple-1))) )
 
 (set-face-foreground 'mode-line "#222222")
 (set-face-background 'mode-line "#ff8899")
@@ -113,12 +114,12 @@
 
 ;; emphasize whitespace ;?
 (setq-default show-trailing-whitespace t)
-(require 'whitespace)
-(setq whitespace-style '(face
-                         tabs
-                         tab-mark
-                         spaces
-                         space-mark))
+(when (require 'whitespace nil 'noerror)
+  (setq whitespace-style '(face
+                           tabs
+                           tab-mark
+                           spaces
+                           space-mark)) )
 
 (setq whitespace-space-regexp "\\(\x3000+\\)")
 (setq whitespace-display-mappings
@@ -159,25 +160,25 @@
 ;;; window, buffer
 
 ;; auto-complete
-(require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/elpa/auto-complete-20131128.233/dict/")
-(ac-config-default)
-(setq ac-use-fuzzy t)
-(global-auto-complete-mode t)
-(add-hook 'html-mode-hook 'auto-complete-mode)
-;; キーバインド微調整
-;;(global-set-key (kbd "<tab>") 'ac-start) ; tabで自動補完モード開始
-(define-key ac-mode-map (kbd "<tab>") 'ac-start) ; tabで自動補完モード開始
-(define-key ac-completing-map (kbd "<tab>") 'auto-complete) ; tabで補完できるところまで補完
-(define-key ac-completing-map (kbd "C-n") 'ac-next)
-(define-key ac-completing-map (kbd "C-p") 'ac-previous)
-(setq ac-auto-show-menu 0)
+(when (require 'auto-complete-config nil 'noerror)
+  (add-to-list 'ac-dictionary-directories "~/.emacs.d/elpa/auto-complete-20131128.233/dict/")
+  (ac-config-default)
+  (setq ac-use-fuzzy t)
+  (global-auto-complete-mode t)
+  (add-hook 'html-mode-hook 'auto-complete-mode)
+  ;; キーバインド微調整
+  ;;(global-set-key (kbd "<tab>") 'ac-start) ; tabで自動補完モード開始
+  (define-key ac-mode-map (kbd "<tab>") 'ac-start) ; tabで自動補完モード開始
+  (define-key ac-completing-map (kbd "<tab>") 'auto-complete) ; tabで補完できるところまで補完
+  (define-key ac-completing-map (kbd "C-n") 'ac-next)
+  (define-key ac-completing-map (kbd "C-p") 'ac-previous)
+  (setq ac-auto-show-menu 0) )
 
 ;; redo+
-(require 'redo+)
-(setq undo-no-redo t)
-(define-key global-map (kbd "C-?") 'redo)
-
+(when (require 'redo+ nil 'noerror)
+  (setq undo-no-redo t)
+  (define-key global-map (kbd "C-?") 'redo)
+  (define-key global-map (kbd "C-M-_") 'redo) )
 ;; switch window
 (global-set-key (kbd "C-<tab>") 'other-window)
 (global-set-key (kbd "<C-S-iso-lefttab>")
@@ -189,16 +190,16 @@
 
 ;; isearch in minibuffuer
 ;;(auto-install-from-url "http://www.sodan.org/~knagano/emacs/minibuf-isearch/minibuf-isearch.el")
-(require 'minibuf-isearch)
+(when (require 'minibuf-isearch nil 'noerror))
 
 ;; session
-(require 'session)
-(setq session-initialize '(de-saveplace session keys menus places)
-      session-globals-include '((kill-ring 50)
-                                (session-file-alist 500 t)
-                                (file-name-history 10000)))
-(add-hook 'after-init-hook 'session-initialize)
-(setq history-length t)
+(when (require 'session nil 'noerror)
+  (setq session-initialize '(de-saveplace session keys menus places)
+        session-globals-include '((kill-ring 50)
+                                  (session-file-alist 500 t)
+                                  (file-name-history 10000)))
+  (add-hook 'after-init-hook 'session-initialize)
+  (setq history-length t) )
 
 ;; keep cursor position in closed buffer
 (setq session-undo-check -1)
@@ -339,15 +340,15 @@
 ;; general
 
 ;; yasnippet
-(require 'yasnippet)
-(yas/global-mode 1)
+(when (require 'yasnippet nil 'noerror)
+  (yas/global-mode 1) )
 
 ;; flymake
-(require 'flymake)
+(when (require 'flymake nil 'noerror))
 ;; http://www.emacswiki.org/emacs/FlymakeHtml
 
-(require 'flymake-html)
-(add-hook 'html-mode-hook '(lambda () (flymake-mode t)))
+(when (require 'flymake-html nil 'noerror)
+  (add-hook 'html-mode-hook '(lambda () (flymake-mode t))) )
 
 ;;; ---------------------------------------------------------
 ;; Java
@@ -362,8 +363,8 @@
 ;; HTML, CSS
 
 ;; zencoding
-(require 'zencoding-mode)
-(add-hook 'html-mode-hook 'zencoding-mode)
+(when (require 'zencoding-mode nil 'noerror)
+  (add-hook 'html-mode-hook 'zencoding-mode))
 
 ;; css-mode
 (add-to-list 'auto-mode-alist '("\\.scss$" . css-mode))
@@ -383,10 +384,10 @@
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
 ;; jade-mode
-(require 'sws-mode)
-(require 'jade-mode)
-(add-to-list 'auto-mode-alist '("\\.styl$" . sws-mode))
-(add-to-list 'auto-mode-alist '("\\.jade$" . jade-mode))
+(when (require 'sws-mode nil 'noerror))
+(when (require 'jade-mode nil 'noerror)
+  (add-to-list 'auto-mode-alist '("\\.styl$" . sws-mode))
+  (add-to-list 'auto-mode-alist '("\\.jade$" . jade-mode)) )
 
 ;;; ---------------------------------------------------------
 ;; Perl
@@ -421,12 +422,12 @@
 ;; Lisp
 
 ;; Common Lisp
-(require 'slime)
-(add-hook 'lisp-mode-hook (lambda ()
-                            (slime-mode t)
-                            (show-paren-mode)))
-(slime-setup '(slime-repl))
-(setq slime-net-coding-system 'utf-8-dos)
+(when (require 'slime nil 'noerror)
+  (add-hook 'lisp-mode-hook (lambda ()
+                              (slime-mode t)
+                              (show-paren-mode)))
+  (slime-setup '(slime-repl))
+  (setq slime-net-coding-system 'utf-8-dos) )
 
 ;; http://modern-cl.blogspot.jp/
 ;; (push '("*slime-apropos*") popwin:special-display-config)
@@ -446,60 +447,62 @@
 
 ;;; =========================================================
 ;; tabbar
+(when (require 'direx nil 'noerror)
+  (message "hoge"))
 
-(require 'tabbar)
-(tabbar-mode)
-(tabbar-mwheel-mode -1)
-(setq tabbar-buffer-groups-function nil)
-;; ボタン非表示
-(dolist (btn '(tabbar-buffer-home-button
-               tabbar-scroll-left-button
-               tabbar-scroll-right-button))
-  (set btn (cons (cons "" nil) (cons "" nil))))
-;; タブ表示 一時バッファ一覧
-(defvar tabbar-displayed-buffers
-  '("*scratch*" "*Messages*" "*Backtrace*" "*Colors*"
-    "*Faces*" "*Apropos*" "*Customize*" "*shell*" "*Help*")
-  "*Regexps matches buffer names always included tabs.")
+(when (require 'tabbar nil 'noerror)
+  (tabbar-mode)
+  (tabbar-mwheel-mode -1)
+  (setq tabbar-buffer-groups-function nil)
+  ;; ボタン非表示
+  (dolist (btn '(tabbar-buffer-home-button
+                 tabbar-scroll-left-button
+                 tabbar-scroll-right-button))
+    (set btn (cons (cons "" nil) (cons "" nil))))
+  ;; タブ表示 一時バッファ一覧
+  (defvar tabbar-displayed-buffers
+    '("*scratch*" "*Messages*" "*Backtrace*" "*Colors*"
+      "*Faces*" "*Apropos*" "*Customize*" "*shell*" "*Help*")
+    "*Regexps matches buffer names always included tabs.")
 
-;; 作業バッファの一部を非表示
-(setq tabbar-buffer-list-function
-      (lambda ()
-        (let* ((hides (list ?\  ?\*))
-               (re (regexp-opt tabbar-displayed-buffers))
-               (cur-buf (current-buffer))
-               (tabs (delq
-                      nil
-                      (mapcar
-                       (lambda (buf)
-                         (let ((name (buffer-name buf)))
-                           (when (or (string-match re name)
-                                     (not (memq (aref name 0) hides)))
-                             buf)))
-                       (buffer-list)))))
-          (if (memq cur-buf tabs)
-              tabs
-            (cons cur-buf tabs)))))
+  ;; 作業バッファの一部を非表示
+  (setq tabbar-buffer-list-function
+        (lambda ()
+          (let* ((hides (list ?\  ?\*))
+                 (re (regexp-opt tabbar-displayed-buffers))
+                 (cur-buf (current-buffer))
+                 (tabs (delq
+                        nil
+                        (mapcar
+                         (lambda (buf)
+                           (let ((name (buffer-name buf)))
+                             (when (or (string-match re name)
+                                       (not (memq (aref name 0) hides)))
+                               buf)))
+                         (buffer-list)))))
+            (if (memq cur-buf tabs)
+                tabs
+              (cons cur-buf tabs)))))
 
-(set-face-attribute 'tabbar-default nil
-                    :background "#666666")
-(set-face-attribute 'tabbar-selected nil
-                    :foreground "#444444"
-                    :background "#eeeeee"
-                    :box (list
-                          :line-width -1
-                          :color "#eeeeee")
-                    :weight 'bold
-                    )
-(set-face-attribute 'tabbar-unselected nil
-                    :foreground "#444444"
-                    :background "#aaaaaa"
-                    :box (list
-                          :line-width -1
-                          :color "#aaaaaa")
-                    )
-(set-face-attribute 'tabbar-separator nil
-                    :height 0.1)
+  (set-face-attribute 'tabbar-default nil
+                      :background "#666666")
+  (set-face-attribute 'tabbar-selected nil
+                      :foreground "#444444"
+                      :background "#eeeeee"
+                      :box (list
+                            :line-width -1
+                            :color "#eeeeee")
+                      :weight 'bold
+                      )
+  (set-face-attribute 'tabbar-unselected nil
+                      :foreground "#444444"
+                      :background "#aaaaaa"
+                      :box (list
+                            :line-width -1
+                            :color "#aaaaaa")
+                      )
+  (set-face-attribute 'tabbar-separator nil
+                      :height 0.1) )
 
 
 ;;----
