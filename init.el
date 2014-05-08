@@ -407,6 +407,24 @@
 (add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
 
+;; rst-mode
+(add-hook 'rst-mode-hook
+          (lambda ()
+            (define-key rst-mode-map (kbd "C-c C-c") 'compile)
+            (set (make-local-variable 'compile-command)
+                 (let ((file (file-name-nondirectory buffer-file-name)))
+                   (format "%s %s.rst -o %s.html"
+                           "pandoc"
+                           (file-name-sans-extension file)
+                           (file-name-sans-extension file)
+                           file)))))
+
+;;(lambda ()
+;;                           (setq
+;;                            (make-local-variable 'compile-command)
+;;                            (concat "pandoc " (buffer-name)))))
+
+
 ;;; ---------------------------------------------------------
 ;; Erlang
 
