@@ -419,10 +419,6 @@
                            (file-name-sans-extension file)
                            file)))))
 
-;;(lambda ()
-;;                           (setq
-;;                            (make-local-variable 'compile-command)
-;;                            (concat "pandoc " (buffer-name)))))
 
 
 ;;; ---------------------------------------------------------
