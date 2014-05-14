@@ -95,7 +95,7 @@
   (push '("^\\*Backtrace\\*$" :regexp t) popwin:special-display-config) )
 
 ;; indent
-(setq-default indent-tabs-mode nil)
+;(setq-default indent-tabs-mode nil)
 
 ;; =========================================================
 ;; color
@@ -339,6 +339,10 @@
 ;;; ---------------------------------------------------------
 ;; general
 
+;; editorconfig
+;; https://github.com/editorconfig/editorconfig-core-c/blob/master/INSTALL.md
+(load "editorconfig")
+
 ;; yasnippet
 (when (require 'yasnippet nil 'noerror)
   (yas/global-mode 1) )
@@ -380,7 +384,8 @@
 
 ;; js2-mode
 (autoload 'js2-mode "js2-mode" nil t)
-(setq-default js2-basic-offset 2)
+;; leave it to editorconfig
+;;(setq-default js2-basic-offset 2)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
 
 ;; jade-mode
