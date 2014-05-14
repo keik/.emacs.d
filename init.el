@@ -24,7 +24,7 @@
          color-theme
          ;; tabbar
          ;;; programing
-         ;; yasnippet
+	 editorconfig
          yasnippet
          ;;; JavaScript
          ;; sws-mode jade-mode
