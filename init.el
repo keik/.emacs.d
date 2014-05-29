@@ -476,7 +476,7 @@
   ;; ボタン非表示
   (dolist (btn '(tabbar-buffer-home-button
                  tabbar-scroll-left-button
-                 tabbar-scroll-right-button))
+                 tabbar-scroll-right-button))3
     (set btn (cons (cons "" nil) (cons "" nil))))
   ;; タブ表示 一時バッファ一覧
   (defvar tabbar-displayed-buffers
@@ -522,6 +522,45 @@
                       )
   (set-face-attribute 'tabbar-separator nil
                       :height 0.1) )
+
+
+;;; =========================================================
+;; shell
+(cond
+ ;; Linux
+ ((and (eq env-w 'x) (eq env-os 'gnu/linux)))
+ ;; Mac
+ ((and (eq env-w 'ns) (eq env-os 'darwin)))
+ ;; Windows
+ ((and (eq env-w 'w32) (eq env-os 'windows-nt))
+  (progn
+    (require 'shell)
+    (setq explicit-shell-file-name "bash.exe")
+    (setq shell-command-switch "-c")
+    (setq shell-file-name "bash.exe")
+
+    ;; (M-! and M-| and compile.el)
+    (setq shell-file-name "bash.exe")
+    (modify-coding-system-alist 'process ".*sh\\.exe" 'cp932)
+
+    ;; shellモードの時の^M抑制
+    (add-hook 'comint-output-filter-functions 'shell-strip-ctrl-m nil t)
+
+    ;; shell-modeでの補完 (for drive letter)
+    (setq shell-file-name-chars "~/A-Za-z0-9_^$!#%&{}@'`.,;()-")
+
+    ;; エスケープシーケンス処理の設定
+    (autoload 'ansi-color-for-comint-mode-on "ansi-color"
+      "Set `ansi-color-for-comint-mode' to t." t)
+
+    (setq shell-mode-hook
+	  (function
+	   (lambda ()
+
+	     ;; シェルモードの入出力文字コード
+	     (set-buffer-process-coding-system 'sjis-dos 'sjis-unix)
+	     (set-buffer-file-coding-system    'sjis-unix)
+	     )))) ))
 
 
 ;;----
