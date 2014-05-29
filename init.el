@@ -24,7 +24,7 @@
          color-theme
          ;; tabbar
          ;;; programing
-	 editorconfig
+         editorconfig
          yasnippet
          ;;; JavaScript
          ;; sws-mode jade-mode
@@ -64,7 +64,7 @@
       (concat  "%b - emacs@" (system-name)))
 (set-frame-parameter (selected-frame) 'alpha '(1.0))
 (menu-bar-mode 0)
-;;(tool-bar-mode 0)
+(tool-bar-mode 0)
 (column-number-mode t)
 
 ;; linum
@@ -95,7 +95,7 @@
   (push '("^\\*Backtrace\\*$" :regexp t) popwin:special-display-config) )
 
 ;; indent
-;(setq-default indent-tabs-mode nil)
+;;(setq-default indent-tabs-mode nil)
 
 ;; =========================================================
 ;; color
