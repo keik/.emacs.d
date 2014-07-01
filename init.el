@@ -113,10 +113,10 @@
 (set-face-background 'mode-line-inactive "#333333")
 
 ;; emphasize whitespace ;?
-(setq-default show-trailing-whitespace t)
 (when (require 'whitespace nil 'noerror)
   (setq whitespace-style '(face
                            tabs
+                           trailing
                            tab-mark
                            spaces
                            space-mark)) )
@@ -125,12 +125,19 @@
 (setq whitespace-display-mappings
       '((space-mark ?\x3000)
         (tab-mark   ?\t   [?\xBB ?\t]) ))
+
 (set-face-foreground 'whitespace-tab "#444444")
-(set-face-background 'whitespace-tab 'nil)
+(set-face-background 'whitespace-tab nil)
 (set-face-underline  'whitespace-tab nil)
-(set-face-foreground 'whitespace-space nil)
+
+(set-face-foreground  'whitespace-space nil)
+(set-face-underline  'whitespace-space nil)
 (set-face-background 'whitespace-space "#444444")
-(set-face-bold-p 'whitespace-space t)
+
+(set-face-foreground  'whitespace-trailing nil)
+(set-face-underline  'whitespace-trailing nil)
+(set-face-background 'whitespace-trailing "#444444")
+
 (global-whitespace-mode t)
 
 ;; emphasize parenthesis
@@ -554,13 +561,13 @@
       "Set `ansi-color-for-comint-mode' to t." t)
 
     (setq shell-mode-hook
-	  (function
-	   (lambda ()
+          (function
+           (lambda ()
 
-	     ;; シェルモードの入出力文字コード
-	     (set-buffer-process-coding-system 'sjis-dos 'sjis-unix)
-	     (set-buffer-file-coding-system    'sjis-unix)
-	     )))) ))
+             ;; シェルモードの入出力文字コード
+             (set-buffer-process-coding-system 'sjis-dos 'sjis-unix)
+             (set-buffer-file-coding-system    'sjis-unix)
+             )))) ))
 
 
 ;;----
