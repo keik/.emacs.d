@@ -58,7 +58,8 @@
 
 (add-to-list 'load-path "~/.emacs.d/elisp")
 
-(exec-path-from-shell-initialize)
+(when (require 'exec-path-from-shell nil 'noerror)
+  (exec-path-from-shell-initialize))
 
 ;; proxy
 ;;(setq url-proxy-services '(("http" . "xxx.xxx.xxx.xxx:xxxx")))
