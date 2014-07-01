@@ -11,12 +11,14 @@
       (package
        '(
          ;;; basic
+         auto-install
          auto-complete
          fuzzy
          popup
          pos-tip
          session
          redo+
+         exec-path-from-shell
          ;;; window, buffer
          popwin
          direx
@@ -28,7 +30,7 @@
          yasnippet
          ;;; JavaScript
          ;; sws-mode jade-mode
-         ;; js2-mode
+         js2-mode
          ;;; Erlang
          ;; erlang
          ;;; Common Lisp
@@ -40,6 +42,8 @@
                        ))
     (unless (package-installed-p package)
       (package-install package))) )
+
+(when (require 'auto-install nil 'noerror))
 
 ;;; =========================================================
 ;;; environment
@@ -53,6 +57,8 @@
 (setq create-lockfiles nil)
 
 (add-to-list 'load-path "~/.emacs.d/elisp")
+
+(exec-path-from-shell-initialize)
 
 ;; proxy
 ;;(setq url-proxy-services '(("http" . "xxx.xxx.xxx.xxx:xxxx")))
@@ -189,7 +195,7 @@
        (setq x-select-enable-clipboard t) ))
 
 ;; isearch in minibuffuer
-;;(auto-install-from-url "http://www.sodan.org/~knagano/emacs/minibuf-isearch/minibuf-isearch.el")
+;; (auto-install-from-url "http://www.sodan.org/~knagano/emacs/minibuf-isearch/minibuf-isearch.el")
 (when (require 'minibuf-isearch nil 'noerror))
 
 ;; session
@@ -554,13 +560,13 @@
       "Set `ansi-color-for-comint-mode' to t." t)
 
     (setq shell-mode-hook
-	  (function
-	   (lambda ()
+          (function
+           (lambda ()
 
-	     ;; シェルモードの入出力文字コード
-	     (set-buffer-process-coding-system 'sjis-dos 'sjis-unix)
-	     (set-buffer-file-coding-system    'sjis-unix)
-	     )))) ))
+             ;; シェルモードの入出力文字コード
+             (set-buffer-process-coding-system 'sjis-dos 'sjis-unix)
+             (set-buffer-file-coding-system    'sjis-unix)
+             )))) ))
 
 
 ;;----
