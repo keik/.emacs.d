@@ -355,7 +355,7 @@
 
 ;; editorconfig
 ;; https://github.com/editorconfig/editorconfig-core-c/blob/master/INSTALL.md
-(load "editorconfig")
+(load "editorconfig" 'noerror)
 
 ;; yasnippet
 (when (require 'yasnippet nil 'noerror)
