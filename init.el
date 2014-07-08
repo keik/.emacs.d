@@ -339,7 +339,10 @@
     (interactive)
     (start-process "nautilus" nil "nautilus" ".") ))
  ;; Mac
- ((and (eq env-w 'ns) (eq env-os 'darwin)))
+ ((and (eq env-w 'ns) (eq env-os 'darwin))
+   (defun open ()
+     (interactive)
+     (start-process "open" nil "open" ".") ))
  ;; Windows
  ((and (eq env-w 'w32) (eq env-os 'windows-nt))
   (defun open ()
