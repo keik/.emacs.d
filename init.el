@@ -97,7 +97,7 @@
 ;; popwin
 (when (require 'popwin nil 'noerror)
   (setq display-buffer-function 'popwin:display-buffer)
-  (push '(direx:direx-mode :position left :width 36 :dedicated t)
+  (push '(direx:direx-mode :position left :width 50 :dedicated t)
         popwin:special-display-config)
   (push '("^\\*Backtrace\\*$" :regexp t) popwin:special-display-config) )
 
