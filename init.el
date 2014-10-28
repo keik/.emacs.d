@@ -360,6 +360,11 @@
 ;; https://github.com/editorconfig/editorconfig-core-c/blob/master/INSTALL.md
 (load "editorconfig" 'noerror)
 
+;; ediff
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+(setq ediff-split-window-function 'split-window-horizontally)
+(setq ediff-keep-variants nil)
+
 ;; yasnippet
 (when (require 'yasnippet nil 'noerror)
   (yas/global-mode 1) )
