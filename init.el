@@ -19,26 +19,30 @@
          session
          redo+
          exec-path-from-shell
+
          ;;; window, buffer
          popwin
          direx
-         ;;; looks
-         color-theme
-         ;; tabbar
+
          ;;; programing
          editorconfig
          yasnippet
+
          ;;; JavaScript
-         ;; sws-mode jade-mode
+         ;sws-mode jade-mode
          js2-mode
+
          ;;; Erlang
-         ;; erlang
+         ;erlang
+
          ;;; Common Lisp
-         ;; slime
+         ;slime
+
          ;;; HTML
          zencoding-mode
+
          ;;; documentation
-         ;; markdown-mode
+         ;markdown-mode
                        ))
     (unless (package-installed-p package)
       (package-install package))) )
@@ -108,14 +112,16 @@
 ;; color
 
 ;; color-theme
-(when (require 'color-theme nil 'noerror)
-  (eval-after-load "color-theme"
-    '(progn
-       (color-theme-initialize)
-       (color-theme-simple-1))) )
+(load-theme 'wombat)
+(set-frame-parameter (selected-frame) 'alpha '(90 50))
 
-(set-face-foreground 'mode-line "#222222")
-(set-face-background 'mode-line "#ff8899")
+(custom-set-faces
+ '(default ((t
+             (:background "black")
+             ))))
+(set-face-background 'mode-line "#dddddd")
+(set-face-foreground 'mode-line "#dddddd")
+(set-face-background 'mode-line "#114444")
 (set-face-foreground 'mode-line-inactive "#bbbbbb")
 (set-face-background 'mode-line-inactive "#333333")
 
@@ -163,7 +169,7 @@
  ;; Linux
  ((and (eq env-w 'x) (eq env-os 'gnu/linux))
   (add-to-list 'default-frame-alist
-               '(font . "-unknown-VL Gothic-normal-normal-normal-*-14-*-*-*-*-0-iso10646-1")) )
+               '(font . "-unknown-Ricty-normal-normal-normal-*-16-*-*-*-*-0-iso10646-1")) )
  ;; Mac
  ((and (eq env-w 'ns) (eq env-os 'darwin)) )
  ;; Windows
@@ -291,12 +297,8 @@
 (cond
  ;; Linux
  ((and (eq env-w 'x) (eq env-os 'gnu/linux))
-  (require 'ibus)
-  (add-hook 'after-init-hook 'ibus-mode-on)
-  (setq ibus-agent-file-name "~/.emacs.d/elisp/ibus-el-agent")
-  (ibus-define-common-key ?\C-\s nil)
-  (ibus-define-common-key ?\C-/ nil)
-  (setq ibus-cursor-color '("#ff5555" "#88ccff" "#88ff88"))
+  (require 'mozc)
+  (global-set-key (kbd "S-SPC") 'toggle-input-method)
   )
  ;; Mac
  ((and (eq env-w 'ns) (eq env-os 'darwin)))
