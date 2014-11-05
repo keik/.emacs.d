@@ -52,7 +52,8 @@
 ;;; =========================================================
 ;;; environment
 
-;; (set-language-environment "Japanese")
+(set-language-environment "Japanese")
+
 (setq env-w window-system)
 (setq env-os system-type)
 
