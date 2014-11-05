@@ -114,7 +114,7 @@
 
 ;; color-theme
 (load-theme 'wombat)
-(set-frame-parameter (selected-frame) 'alpha '(90 50))
+(set-frame-parameter (selected-frame) 'alpha '(80 50))
 
 (custom-set-faces
  '(default ((t
