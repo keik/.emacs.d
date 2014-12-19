@@ -1,5 +1,7 @@
 ;; -*- Mode: Emacs-Lisp ; Coding: utf-8 -*-
 
+(setq debug-on-error t)
+
 ;;; =========================================================
 ;;; install
 
@@ -70,8 +72,6 @@
 (setq make-backup-files nil)
 (setq auto-save-default nil)
 (setq create-lockfiles nil)
-
-(add-to-list 'load-path "~/.emacs.d/elisp")
 
 (setq eval-expression-print-level nil)
 (setq eval-expression-print-length nil)
@@ -198,13 +198,20 @@
   (setq ac-use-fuzzy t)
   (global-auto-complete-mode t)
   (add-hook 'html-mode-hook 'auto-complete-mode)
-  ;; キーバインド微調整
-  ;;(global-set-key (kbd "<tab>") 'ac-start) ; tabで自動補完モード開始
-  (define-key ac-mode-map (kbd "<tab>") 'ac-start) ; tabで自動補完モード開始
-  (define-key ac-completing-map (kbd "<tab>") 'auto-complete) ; tabで補完できるところまで補完
+  (define-key ac-mode-map (kbd "TAB") 'ac-start)
+  (define-key ac-completing-map (kbd "TAB") 'auto-complete)
   (define-key ac-completing-map (kbd "C-n") 'ac-next)
   (define-key ac-completing-map (kbd "C-p") 'ac-previous)
-  (setq ac-auto-show-menu 0))
+  (setq ac-auto-show-menu 0)
+
+  ;;; Add ac-sources
+  (add-hook 'html-mode-hook
+    (lambda () (add-to-list 'ac-sources 'ac-source-yasnippet)))
+  (add-hook 'css-mode-hook
+    (lambda () (add-to-list 'ac-sources 'ac-source-yasnippet)))
+  (add-hook 'js2-mode-hook
+    (lambda () (add-to-list 'ac-sources 'ac-source-yasnippet)))
+  )
 
 ;; redo+
 (when (require 'redo+ nil 'noerror)
@@ -220,10 +227,6 @@
   (lambda () (interactive) (other-window -1)))
 (cond (window-system
         (setq x-select-enable-clipboard t)))
-
-;; isearch in minibuffuer
-;; (auto-install-from-url "http://www.sodan.org/~knagano/emacs/minibuf-isearch/minibuf-isearch.el")
-(when (require 'minibuf-isearch nil 'noerror))
 
 ;; session
 (when (require 'session nil 'noerror)
@@ -314,11 +317,14 @@
 (cond
   ;; Linux
   ((and (eq env-w 'x) (eq env-os 'gnu/linux))
-    (require 'mozc)
-    (global-set-key (kbd "S-SPC") 'toggle-input-method)
-    ;;(setq default-input-method "japanese-mozc")
-    ;;(setq mozc-candidate-style 'overlay)
-    )
+    (require 'uim)
+    (setq default-input-method "japanese-anthy-utf8-uim")
+    (setq uim-default-im-prop '("action_anthy_utf8_hiragana"))
+    (setq uim-candidate-display-inline t)
+    (global-set-key (kbd "S-SPC") 'uim-mode)
+    (defadvice uim-mode (after uim-mode-change-cursor-color)
+      (set-face-background 'cursor (if ad-return-value "#3a3" "#666")))
+    (ad-activate 'uim-mode 'uim-mode-change-cursor-color))
   ;; Mac
   ((and (eq env-w 'ns) (eq env-os 'darwin)))
   ;; Windows
@@ -367,7 +373,7 @@
 
 ;; yasnippet
 (when (require 'yasnippet nil 'noerror)
-  (yas/global-mode 1))
+  (yas-global-mode 1))
 
 ;; flycheck
 (add-hook 'html-mode-hook 'flycheck-mode)
@@ -385,11 +391,6 @@
 (add-to-list 'auto-mode-alist '("\\.css$" . css-mode))
 (add-to-list 'auto-mode-alist '("\\.scss$" . css-mode))
 (add-to-list 'auto-mode-alist '("\\.less$" . css-mode))
-
-;; ac
-;;(add-hook 'html-mode-hook
-;;          (lambda ()
-;;            (add-to-list 'ac-sources 'ac-source-yasnippet)))
 
 ;; ---------------------------------------------------------
 ;; Java
