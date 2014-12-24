@@ -73,6 +73,8 @@
 (setq auto-save-default nil)
 (setq create-lockfiles nil)
 
+(add-to-list 'load-path "~/.emacs.d/elisp")
+
 (setq eval-expression-print-level nil)
 (setq eval-expression-print-length nil)
 
@@ -227,6 +229,10 @@
   (lambda () (interactive) (other-window -1)))
 (cond (window-system
         (setq x-select-enable-clipboard t)))
+
+;; isearch in minibuffuer
+;; (auto-install-from-url "http://www.sodan.org/~knagano/emacs/minibuf-isearch/minibuf-isearch.el")
+(when (require 'minibuf-isearch nil 'noerror))
 
 ;; session
 (when (require 'session nil 'noerror)
