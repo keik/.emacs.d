@@ -323,14 +323,26 @@
 (cond
   ;; Linux
   ((and (eq env-w 'x) (eq env-os 'gnu/linux))
-    (require 'uim)
-    (setq default-input-method "japanese-anthy-utf8-uim")
-    (setq uim-default-im-prop '("action_anthy_utf8_hiragana"))
-    (setq uim-candidate-display-inline t)
-    (global-set-key (kbd "S-SPC") 'uim-mode)
-    (defadvice uim-mode (after uim-mode-change-cursor-color)
-      (set-face-background 'cursor (if ad-return-value "#3a3" "#666")))
-    (ad-activate 'uim-mode 'uim-mode-change-cursor-color))
+
+    ;; mozc
+    (require 'mozc)
+    (setq default-input-method "japanese-mozc")
+    (global-set-key (kbd "S-SPC") 'toggle-input-method)
+    (define-key mozc-mode-map (kbd "S-SPC") 'toggle-input-method)
+    (add-hook 'input-method-activate-hook (lambda () (set-face-background 'cursor "#3a3")))
+    (add-hook 'input-method-inactivate-hook (lambda () (set-face-background 'cursor "#666")))
+
+    ;; uim
+    ;;(require 'uim)
+    ;;(setq default-input-method "japanese-mozc-uim")
+    ;;(setq default-input-method "japanese-anthy-utf8-uim")
+    ;;(setq uim-default-im-prop '("action_anthy_utf8_hiragana"))
+    ;;(setq uim-candidate-display-inline t)
+    ;;(global-set-key (kbd "S-SPC") 'uim-mode)
+    ;;(defadvice uim-mode (after uim-mode-change-cursor-color)
+    ;;  (set-face-background 'cursor (if ad-return-value "#3a3" "#666")))
+    ;;(ad-activate 'uim-mode 'uim-mode-change-cursor-color)
+    )
   ;; Mac
   ((and (eq env-w 'ns) (eq env-os 'darwin)))
   ;; Windows
