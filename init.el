@@ -327,6 +327,7 @@
     ;; mozc
     (require 'mozc)
     (setq default-input-method "japanese-mozc")
+    (setq mozc-candidate-style 'echo-area)
     (global-set-key (kbd "S-SPC") 'toggle-input-method)
     (define-key mozc-mode-map (kbd "S-SPC") 'toggle-input-method)
     (add-hook 'input-method-activate-hook (lambda () (set-face-background 'cursor "#3a3")))
@@ -400,6 +401,9 @@
 
 ;; ---------------------------------------------------------
 ;; HTML, CSS
+
+(setq browse-url-browser-function 'browse-url-generic
+  browse-url-generic-program "chromium")
 
 ;; zencoding
 (when (require 'zencoding-mode nil 'noerror)
