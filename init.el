@@ -7,54 +7,50 @@
 
 (when (require 'package nil 'noerror)
   (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-  (add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/"))
   (package-initialize)
-  ;;(dolist
-  ;;  (package
-  ;;    '(
-  ;;      ;;; basic
-  ;;       auto-install
-  ;;       auto-complete
-  ;;       fuzzy
-  ;;       popup
-  ;;       pos-tip
-  ;;       session
-  ;;       redo+
-  ;;       exec-path-from-shell
-  ;;
-  ;;      ;;; window, buffer
-  ;;       popwin
-  ;;       direx
-  ;;
-  ;;      ;;; programing
-  ;;       flycheck
-  ;;       editorconfig
-  ;;       yasnippet
-  ;;
-  ;;      ;;; Java
-  ;;       malabar-mode
-  ;;
-  ;;      ;;; JavaScript
-  ;;       sws-mode jade-mode
-  ;;       js2-mode
-  ;;
-  ;;      ;;; Erlang
-  ;;       ;;erlang
-  ;;
-  ;;      ;;; Common Lisp
-  ;;       ;;slime
-  ;;
-  ;;      ;;; HTML
-  ;;       zencoding-mode
-  ;;
-  ;;       ;;; documentation
-  ;;       ;;markdown-mode
-  ;;       ))
-  ;;  (unless (package-installed-p package)
-  ;;    (package-install package)))
-  )
+  (defvar dependencies
+    '(auto-install
+       auto-complete
+       popup
+       pos-tip
+       session
+       redo+
+       exec-path-from-shell
 
-;;(when (require 'auto-install nil 'noerror))
+       ;;; window, buffer
+       popwin
+       direx
+
+       ;;; programing
+       flycheck
+       editorconfig
+       yasnippet
+
+       ;;; Java
+       ;; malabar-mode
+
+       ;;; JavaScript
+       sws-mode jade-mode
+       js2-mode
+
+       ;;; Erlang
+       ;; erlang
+
+       ;;; Common Lisp
+       ;; slime
+
+       ;;; HTML
+       zencoding-mode
+
+       ;;; documentation
+       markdown-mode
+       ))
+
+  (dolist (package dependencies)
+    (unless (package-installed-p package)
+      (package-install package))))
+
+(require 'auto-install nil 'noerror)
 
 ;;; =========================================================
 ;;; environment
@@ -183,7 +179,7 @@
   ;; Linux
   ((and (eq env-w 'x) (eq env-os 'gnu/linux))
     (add-to-list 'default-frame-alist
-      '(font . "-unknown-Ricty-normal-normal-normal-*-16-*-*-*-*-0-iso10646-1")))
+      (set-face-attribute 'default nil :family "Ricty Diminished Discord" :height 110)))
   ;; Mac
   ((and (eq env-w 'ns) (eq env-os 'darwin)))
   ;; Windows
@@ -249,7 +245,7 @@
 ;; buffer switching
 (ido-mode t)
 (delete '(find-file . ido-find-file) ;disable ido-find-file
-  (cdr (cdaddr ido-minor-mode-map-entry)))
+	(cdr (cdaddr ido-minor-mode-map-entry)))
 
 ;; bs-show
 (global-set-key (kbd "C-x C-b") 'bs-show)
@@ -352,7 +348,7 @@
     (w32-ime-initialize)
 
     (add-hook 'post-command-hook
-      (lambda() (if (ime-get-mode)
+	    (lambda() (if (ime-get-mode)
                   (set-cursor-color "#ff5555")
                   (set-cursor-color "#88ccff"))))
     ;; IME off at minibuffer
@@ -417,17 +413,17 @@
 ;; ---------------------------------------------------------
 ;; Java
 
-(require 'cedet)
-(require 'semantic)
-(semantic-mode 1)
-(require 'malabar-mode)
-(add-to-list 'auto-mode-alist '("\\.java\\'" . malabar-mode))
-(add-hook 'java-mode-hook
-  (lambda ()
-    (define-key java-mode-map (kbd "C-c C-c") 'compile)
-    (set (make-local-variable 'compile-command)
-      (let ((file (file-name-nondirectory buffer-file-name)))
-        (format "jc %s" file)))))
+;;(require 'cedet)
+;;(require 'semantic)
+;;(semantic-mode 1)
+;;(require 'malabar-mode)
+;;(add-to-list 'auto-mode-alist '("\\.java\\'" . malabar-mode))
+;;(add-hook 'java-mode-hook
+;;  (lambda ()
+;;    (define-key java-mode-map (kbd "C-c C-c") 'compile)
+;;    (set (make-local-variable 'compile-command)
+;;      (let ((file (file-name-nondirectory buffer-file-name)))
+;;        (format "jc %s" file)))))
 
 ;; ---------------------------------------------------------
 ;; JavaScript
@@ -449,7 +445,7 @@
   '(lambda ()
      (make-local-variable 'compile-command)
      (setq compile-command
-       (concat "perl " (buffer-file-name)))
+		   (concat "perl " (buffer-file-name)))
      (cperl-define-key "\C-c\C-c" 'compile)))
 
 ;; ---------------------------------------------------------
@@ -508,7 +504,7 @@
   ;; Linux
   ((and (eq env-w 'x) (eq env-os 'gnu/linux))
     ;;(when (require 'exec-path-from-shell nil 'noerror)
-    (exec-path-from-shell-initialize))
+    (ignore-errors (exec-path-from-shell-initialize)))
   ;;)
   ;; Mac
   ((and (eq env-w 'ns) (eq env-os 'darwin)))
