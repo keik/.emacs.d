@@ -3,11 +3,14 @@
 (setq debug-on-error t)
 
 ;;; =========================================================
+
 ;;; install
 
-(when (require 'package nil 'noerror)
+(defvar *installp*  nil)
+(package-initialize)
+(when (and *installp* (require 'package nil 'noerror))
   (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-  (package-initialize)
+  (package-refresh-contents)
   (defvar dependencies
     '(auto-install
        auto-complete
@@ -30,8 +33,8 @@
        ;; malabar-mode
 
        ;;; JavaScript
-       sws-mode jade-mode
-       js2-mode
+       ;; sws-mode jade-mode
+       ;; js2-mode
 
        ;;; Erlang
        ;; erlang
