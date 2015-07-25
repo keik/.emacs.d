@@ -6,13 +6,15 @@
 
 ;;; install
 
+
 (defvar *installp*  nil)
 (package-initialize)
 (when (and *installp* (require 'package nil 'noerror))
   (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
   (package-refresh-contents)
   (defvar dependencies
-    '(auto-install
+    '(
+       auto-install
        auto-complete
        popup
        pos-tip
@@ -53,10 +55,11 @@
     (unless (package-installed-p package)
       (package-install package))))
 
-(require 'auto-install nil 'noerror)
+(add-to-list 'load-path "~/.emacs.d/auto-install")
+(when (require 'auto-install nil t)
+  (setq auto-install-directory "~/.emacs.d/auto-install/")
+  (auto-install-update-emacswiki-package-name t))
 
-(auto-install-from-url "http://www.emacswiki.org/emacs/download/multi-term.el")
-(require 'multi-term nil 'noerror)
 
 ;;; =========================================================
 ;;; environment
@@ -74,8 +77,6 @@
 (setq make-backup-files nil)
 (setq auto-save-default nil)
 (setq create-lockfiles nil)
-
-(add-to-list 'load-path "~/.emacs.d/elisp")
 
 (setq eval-expression-print-level nil)
 (setq eval-expression-print-length nil)
@@ -233,8 +234,9 @@
         (setq x-select-enable-clipboard t)))
 
 ;; isearch in minibuffuer
-;; (auto-install-from-url "http://www.sodan.org/~knagano/emacs/minibuf-isearch/minibuf-isearch.el")
-(when (require 'minibuf-isearch nil 'noerror))
+;;
+(unless (require 'minibuf-isearch nil 'noerror)
+  (auto-install-from-url "http://www.sodan.org/~knagano/emacs/minibuf-isearch/minibuf-isearch.el"))
 
 ;; session
 (when (require 'session nil 'noerror)
@@ -509,9 +511,11 @@
 
 (cond
   ;; Linux
-  ((and (eq env-w 'x) (eq env-os 'gnu/linux))
+  ((eq env-os 'gnu/linux)
     ;;(when (require 'exec-path-from-shell nil 'noerror)
-    (ignore-errors (exec-path-from-shell-initialize)))
+    (ignore-errors (exec-path-from-shell-initialize))
+    (unless (require 'multi-term nil 'noerror)
+      (auto-install-from-url "http://www.emacswiki.org/emacs/download/multi-term.el")))
   ;;)
   ;; Mac
   ((and (eq env-w 'ns) (eq env-os 'darwin)))
