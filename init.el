@@ -55,6 +55,9 @@
 
 (require 'auto-install nil 'noerror)
 
+(auto-install-from-url "http://www.emacswiki.org/emacs/download/multi-term.el")
+(require 'multi-term nil 'noerror)
+
 ;;; =========================================================
 ;;; environment
 
@@ -284,6 +287,7 @@
 (cua-mode t)
 (setq cua-enable-cua-keys nil)
 (setq cua-mode-enable-cua-keys nil)
+(define-key global-map (kbd "M-RET") 'cua-rectangle-mark-mode)
 
 ;; scroll each one line
 (setq scroll-conservatively 35
