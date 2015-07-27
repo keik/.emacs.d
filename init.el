@@ -81,6 +81,10 @@
 (setq eval-expression-print-level nil)
 (setq eval-expression-print-length nil)
 
+(require 'server)
+(unless (server-running-p)
+  (server-start))
+
 ;; proxy
 ;;(setq url-proxy-services '(("http" . "xxx.xxx.xxx.xxx:xxxx")))
 
