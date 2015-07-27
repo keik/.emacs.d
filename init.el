@@ -185,8 +185,8 @@
 (cond
   ;; Linux
   ((and (eq env-w 'x) (eq env-os 'gnu/linux))
-    (add-to-list 'default-frame-alist
-      (set-face-attribute 'default nil :family "Ricty Diminished Discord" :height 110)))
+    (add-to-list 'default-frame-alist '(font . "Ricty Diminished Discord"))
+    (set-face-attribute 'default t :font "Ricty Diminished Discord"))
   ;; Mac
   ((and (eq env-w 'ns) (eq env-os 'darwin)))
   ;; Windows
