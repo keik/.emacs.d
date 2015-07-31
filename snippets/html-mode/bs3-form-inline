@@ -1,0 +1,7 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: bs3-form-inline
+# key: bs3-form-inline
+# --
+<form class="form-inline">
+$0
+</form>

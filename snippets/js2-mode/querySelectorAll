@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: querySelectorAll
+# key: querySelectorAll
+# binding: direct-keybinding
+# --
+querySelectorAll('$0')

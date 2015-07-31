@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: bs3-form-group
+# key: bs3-form-group
+# --
+<div class="form-group">
+  <label>$0</label>
+  <input type="text" class="form-control">
+</div>
