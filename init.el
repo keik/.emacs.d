@@ -140,7 +140,8 @@
 (set-frame-parameter (selected-frame) 'alpha '(85 70))
 
 (custom-set-faces
-  '(default ((t (:background "black")))))
+ '(default ((t (:background "black"))))
+ '(term-color-blue ((t (:background "deep sky blue" :foreground "deep sky blue")))))
 (set-face-foreground 'mode-line "#dddddd")
 (set-face-background 'mode-line "#114444")
 (set-face-foreground 'mode-line-inactive "#bbbbbb")
