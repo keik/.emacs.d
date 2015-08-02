@@ -215,13 +215,20 @@
   (setq ac-auto-show-menu 0)
 
   ;;; Add ac-sources
-  (add-hook 'html-mode-hook
-    (lambda () (add-to-list 'ac-sources 'ac-source-yasnippet)))
-  (add-hook 'css-mode-hook
-    (lambda () (add-to-list 'ac-sources 'ac-source-yasnippet)))
-  (add-hook 'js2-mode-hook
-    (lambda () (add-to-list 'ac-sources 'ac-source-yasnippet)))
-  )
+  (defun ac-html-mode-setup ()
+    (add-to-list 'ac-sources 'ac-source-yasnippet)
+    (add-to-list 'ac-sources 'ac-source-filename))
+  (add-hook 'html-mode-hook 'ac-html-mode-setup)
+
+  (defun ac-css-mode-setup ()
+    (add-to-list 'ac-sources 'add-ac-source-yasnippet)
+    (add-to-list 'ac-sources 'ac-source-filename))
+  (add-hook 'css-mode-hook 'ac-css-mode-setup)
+
+  (defun ac-js2-mode-setup ()
+    (add-to-list 'ac-sources 'ac-source-yasnippet)
+    (add-to-list 'ac-sources 'ac-source-filename))
+  (add-hook 'js2-mode-hook 'ac-js2-mode-setup))
 
 ;; redo+
 (when (require 'redo+ nil 'noerror)

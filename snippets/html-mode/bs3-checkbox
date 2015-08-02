@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: bs3-checkbox
+# key: bs3-checkbox
+# binding: direct-keybinding
+# --
+<label class="checkbox-inline">
+  <input type="checkbox"> $0
+</label>
