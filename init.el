@@ -7,10 +7,11 @@
 ;;; install
 
 
-(defvar *installp*  nil)
+(defvar *installp* nil)
 (package-initialize)
 (when (and *installp* (require 'package nil 'noerror))
   (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+  (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
   (package-refresh-contents)
   (defvar dependencies
     '(
@@ -36,7 +37,8 @@
 
        ;;; JavaScript
        ;; sws-mode jade-mode
-       ;; js2-mode
+       js2-mode
+       json-mode
 
        ;;; Erlang
        ;; erlang
@@ -140,8 +142,8 @@
 (set-frame-parameter (selected-frame) 'alpha '(85 70))
 
 (custom-set-faces
- '(default ((t (:background "black"))))
- '(term-color-blue ((t (:background "deep sky blue" :foreground "deep sky blue")))))
+  '(default ((t (:background "black"))))
+  '(term-color-blue ((t (:background "deep sky blue" :foreground "deep sky blue")))))
 (set-face-foreground 'mode-line "#dddddd")
 (set-face-background 'mode-line "#114444")
 (set-face-foreground 'mode-line-inactive "#bbbbbb")
@@ -412,10 +414,15 @@
   (yas-global-mode 1))
 
 ;; flycheck
-(add-hook 'html-mode-hook 'flycheck-mode)
-(add-hook 'js2-mode-hook 'flycheck-mode)
-(add-hook 'python-mode-hook 'flycheck-mode)
-(add-hook 'java-mode-hook 'flycheck-mode)
+(when (require 'flycheck nil 'noerror)
+  (add-hook 'html-mode-hook 'flycheck-mode)
+  (add-hook 'js2-mode-hook 'flycheck-mode)
+  (setq-default flycheck-disabled-checkers
+    (append flycheck-disabled-checkers
+      '(javascript-jshint)))
+  (flycheck-add-mode 'javascript-eslint 'js2-mode)
+  (add-hook 'python-mode-hook 'flycheck-mode)
+  (add-hook 'java-mode-hook 'flycheck-mode))
 
 ;; ---------------------------------------------------------
 ;; HTML, CSS
