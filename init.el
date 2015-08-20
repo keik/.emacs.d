@@ -1,18 +1,28 @@
 ;; -*- Mode: Emacs-Lisp ; Coding: utf-8 -*-
 
-(setq debug-on-error t)
-(require 'cl)
 
+;;; =========================================================
+;;; configuration
+
+(setq debug-on-error t)
 (defvar *installp* nil)
 (defvar *updatep* nil)
 
 ;;; =========================================================
+;;; globals
+
+(require 'cl)
+(setq-default indent-tabs-mode nil)
+;; (setq whitespace-indent-tabs-mode t)
+
+;;; =========================================================
 
 ;;; install
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 (package-initialize)
 (when (and *installp* (require 'package nil 'noerror))
-  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-  (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
   (package-refresh-contents)
   (defvar dependencies
     '(
@@ -36,8 +46,9 @@
        ;;; Java
        ;; malabar-mode
 
-       ;;; JavaScript
+       ;;; HTML / CSS/ JavaScript
        ;; sws-mode jade-mode
+       web-mode
        js2-mode
        json-mode
 
@@ -210,7 +221,7 @@
   (ac-config-default)
   (setq ac-use-fuzzy t)
   (global-auto-complete-mode t)
-  (add-hook 'html-mode-hook 'auto-complete-mode)
+  (add-hook 'web-mode-hook 'auto-complete-mode)
   (define-key ac-mode-map (kbd "<tab>") 'ac-start)
   (define-key ac-completing-map (kbd "<tab>") 'auto-complete)
   (define-key ac-completing-map (kbd "C-n") 'ac-next)
@@ -218,10 +229,10 @@
   (setq ac-auto-show-menu 0)
 
   ;;; Add ac-sources
-  (defun ac-html-mode-setup ()
+  (defun ac-web-mode-setup ()
     (add-to-list 'ac-sources 'ac-source-yasnippet)
     (add-to-list 'ac-sources 'ac-source-filename))
-  (add-hook 'html-mode-hook 'ac-html-mode-setup)
+  (add-hook 'web-mode-hook 'ac-web-mode-setup)
 
   (defun ac-css-mode-setup ()
     (add-to-list 'ac-sources 'add-ac-source-yasnippet)
@@ -231,7 +242,8 @@
   (defun ac-js2-mode-setup ()
     (add-to-list 'ac-sources 'ac-source-yasnippet)
     (add-to-list 'ac-sources 'ac-source-filename))
-  (add-hook 'js2-mode-hook 'ac-js2-mode-setup))
+  (add-hook 'js2-mode-hook 'ac-js2-mode-setup)
+  )
 
 ;; redo+
 (when (require 'redo+ nil 'noerror)
@@ -416,7 +428,7 @@
 
 ;; flycheck
 (when (require 'flycheck nil 'noerror)
-  (add-hook 'html-mode-hook 'flycheck-mode)
+  (add-hook 'web-mode-hook 'flycheck-mode)
   (add-hook 'js2-mode-hook 'flycheck-mode)
   (setq-default flycheck-disabled-checkers
     (append flycheck-disabled-checkers
@@ -428,17 +440,38 @@
 ;; ---------------------------------------------------------
 ;; HTML, CSS
 
+(when (require 'web-mode nil 'noerror)
+  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+  (define-key web-mode-map (kbd "C-c C-v") 'browse-url-of-buffer))
+
 (setq browse-url-browser-function 'browse-url-generic
   browse-url-generic-program "chromium")
 
 ;; zencoding
 (when (require 'zencoding-mode nil 'noerror)
-  (add-hook 'html-mode-hook 'zencoding-mode))
+  (add-hook 'web-mode-hook 'zencoding-mode))
 
 ;; css-mode
 (add-to-list 'auto-mode-alist '("\\.css$" . css-mode))
 (add-to-list 'auto-mode-alist '("\\.scss$" . css-mode))
 (add-to-list 'auto-mode-alist '("\\.less$" . css-mode))
+
+;; ---------------------------------------------------------
+;; JavaScript
+
+;; js-mode
+(setq js-indent-level 2)
+
+;; js2-mode
+(autoload 'js2-mode "js2-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.es$" . js2-mode))
+
+;; jade-mode
+(when (require 'sws-mode nil 'noerror))
+(when (require 'jade-mode nil 'noerror)
+  (add-to-list 'auto-mode-alist '("\\.styl$" . sws-mode))
+  (add-to-list 'auto-mode-alist '("\\.jade$" . jade-mode)))
 
 ;; ---------------------------------------------------------
 ;; Java
@@ -454,20 +487,6 @@
 ;;    (set (make-local-variable 'compile-command)
 ;;      (let ((file (file-name-nondirectory buffer-file-name)))
 ;;        (format "jc %s" file)))))
-
-;; ---------------------------------------------------------
-;; JavaScript
-
-;; js2-mode
-(autoload 'js2-mode "js2-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-(add-to-list 'auto-mode-alist '("\\.es$" . js2-mode))
-
-;; jade-mode
-(when (require 'sws-mode nil 'noerror))
-(when (require 'jade-mode nil 'noerror)
-  (add-to-list 'auto-mode-alist '("\\.styl$" . sws-mode))
-  (add-to-list 'auto-mode-alist '("\\.jade$" . jade-mode)))
 
 ;; ---------------------------------------------------------
 ;; Perl
