@@ -1,13 +1,14 @@
 ;; -*- Mode: Emacs-Lisp ; Coding: utf-8 -*-
 
 (setq debug-on-error t)
+(require 'cl)
+
+(defvar *installp* nil)
+(defvar *updatep* nil)
 
 ;;; =========================================================
 
 ;;; install
-
-
-(defvar *installp* nil)
 (package-initialize)
 (when (and *installp* (require 'package nil 'noerror))
   (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
@@ -58,7 +59,7 @@
       (package-install package))))
 
 (add-to-list 'load-path "~/.emacs.d/auto-install")
-(when (require 'auto-install nil t)
+(when (and *updatep* (require 'auto-install nil t))
   (setq auto-install-directory "~/.emacs.d/auto-install/")
   (auto-install-update-emacswiki-package-name t))
 
@@ -192,8 +193,8 @@
 (cond
   ;; Linux
   ((and (eq env-w 'x) (eq env-os 'gnu/linux))
-    (add-to-list 'default-frame-alist '(font . "Ricty Diminished Discord"))
-    (set-face-attribute 'default t :font "Ricty Diminished Discord"))
+    ;;(add-to-list 'default-frame-alist '(font . "Ricty Diminished Discord"))
+    (set-face-attribute 'default nil :font "Ricty Diminished Discord" :height 90))
   ;; Mac
   ((and (eq env-w 'ns) (eq env-os 'darwin)))
   ;; Windows
@@ -267,7 +268,7 @@
 ;; buffer switching
 (ido-mode t)
 (delete '(find-file . ido-find-file) ;disable ido-find-file
-	(cdr (cdaddr ido-minor-mode-map-entry)))
+  (cdr (cdaddr ido-minor-mode-map-entry)))
 
 ;; bs-show
 (global-set-key (kbd "C-x C-b") 'bs-show)
@@ -371,7 +372,7 @@
     (w32-ime-initialize)
 
     (add-hook 'post-command-hook
-	    (lambda() (if (ime-get-mode)
+      (lambda() (if (ime-get-mode)
                   (set-cursor-color "#ff5555")
                   (set-cursor-color "#88ccff"))))
     ;; IME off at minibuffer
@@ -475,7 +476,7 @@
   '(lambda ()
      (make-local-variable 'compile-command)
      (setq compile-command
-		   (concat "perl " (buffer-file-name)))
+       (concat "perl " (buffer-file-name)))
      (cperl-define-key "\C-c\C-c" 'compile)))
 
 ;; ---------------------------------------------------------
