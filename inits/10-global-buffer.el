@@ -33,5 +33,8 @@
         (switch-to-buffer "*scratch*")))
     (cond ((= arg 0) (message "*scratch* is cleared up."))
       ((= arg 1) (message "another *scratch* is created")))))
-
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+;; auto-revert
+(global-auto-revert-mode 1)
+(setq auto-revert-check-vc-info t)
