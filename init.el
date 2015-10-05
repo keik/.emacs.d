@@ -1,8 +1,9 @@
 (defvar *installp* nil)
-(defvar *updatep* nil)
 
 ;; install and load packages
 (require 'package)
+(setq package-check-signature nil)
+(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 (package-initialize)
@@ -12,7 +13,6 @@
     '(
        init-loader
 
-       auto-install
        auto-complete
        popup
        pos-tip
@@ -23,6 +23,7 @@
        ;;; window, buffer
        popwin
        direx
+       minibuf-isearch
 
        ;;; programing
        flycheck
@@ -54,11 +55,6 @@
   (dolist (package dependencies)
     (unless (package-installed-p package)
       (package-install package))))
-
-(add-to-list 'load-path "~/.emacs.d/auto-install")
-(when (and *updatep* (require 'auto-install nil t))
-  (setq auto-install-directory "~/.emacs.d/auto-install/")
-  (auto-install-update-emacswiki-package-name t))
 
 ;; run as server
 (require 'server)
