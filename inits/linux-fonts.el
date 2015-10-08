@@ -1,1 +1,1 @@
-(set-face-attribute 'default nil :font "Ricty Diminished Discord" :height 90)
+(set-face-attribute 'default nil :font "Ricty Diminished Discord" :height 110)
