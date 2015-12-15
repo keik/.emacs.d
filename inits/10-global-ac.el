@@ -27,12 +27,6 @@
   (add-hook 'js2-mode-hook 'ac-js2-mode-setup)
   )
 
-;; redo+
-(when (require 'redo+ nil 'noerror)
-  (setq undo-no-redo t)
-  (define-key global-map (kbd "C-?") 'redo)
-  (define-key global-map (kbd "C-M-_") 'redo))
-
 ;; switch window
 (global-set-key (kbd "C-<tab>") 'other-window)
 (global-set-key (kbd "<C-S-iso-lefttab>")
