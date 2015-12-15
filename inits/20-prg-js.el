@@ -7,6 +7,7 @@
 ;; editorconfig
 ;; https://github.com/editorconfig/editorconfig-core-c/blob/master/INSTALL.md
 (load "editorconfig" 'noerror)
+(editorconfig-mode 1)
 
 ;; ediff
 (setq ediff-window-setup-function 'ediff-setup-windows-plain)
