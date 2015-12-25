@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: addEventListener
+# key: addEventListener
+# binding: direct-keybinding
+# --
+addEventListener('$1', $0);
