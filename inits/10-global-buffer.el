@@ -1,6 +1,15 @@
+;; switch window
+(global-set-key (kbd "C-<tab>") 'other-window)
+(global-set-key (kbd "<C-S-iso-lefttab>")
+  (lambda () (interactive) (other-window -1)))
+(global-set-key (kbd "<C-S-tab>")
+  (lambda () (interactive) (other-window -1)))
+(cond (window-system
+        (setq x-select-enable-clipboard t)))
+
 ;; buffer switching
 (ido-mode t)
-;; disable ido-find-file
+;;; disable ido-find-file
 (delete '(find-file . ido-find-file)
   (cdr (cdaddr ido-minor-mode-map-entry)))
 

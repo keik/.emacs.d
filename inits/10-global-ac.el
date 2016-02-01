@@ -3,7 +3,7 @@
   (ac-config-default)
   (setq ac-use-fuzzy t)
   (global-auto-complete-mode t)
-  (add-hook 'web-mode-hook 'auto-complete-mode)
+  (add-hook 'js2-jsx-mode-hook 'auto-complete-mode)
   (define-key ac-mode-map (kbd "<tab>") 'ac-start)
   (define-key ac-completing-map (kbd "<tab>") 'auto-complete)
   (define-key ac-completing-map (kbd "C-n") 'ac-next)
@@ -26,12 +26,3 @@
     (add-to-list 'ac-sources 'ac-source-filename))
   (add-hook 'js2-mode-hook 'ac-js2-mode-setup)
   )
-
-;; switch window
-(global-set-key (kbd "C-<tab>") 'other-window)
-(global-set-key (kbd "<C-S-iso-lefttab>")
-  (lambda () (interactive) (other-window -1)))
-(global-set-key (kbd "<C-S-tab>")
-  (lambda () (interactive) (other-window -1)))
-(cond (window-system
-        (setq x-select-enable-clipboard t)))
