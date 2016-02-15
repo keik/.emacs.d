@@ -43,6 +43,13 @@
 (add-to-list 'auto-mode-alist '("\\.jsx$" . js2-jsx-mode))
 (setq js2-strict-missing-semi-warning nil)
 
+(add-hook 'js2-mode-hook
+  (lambda ()
+    (define-key js2-mode-map (kbd "C-c C-c") 'compile)
+    (set (make-local-variable 'compile-command)
+      (let ((file (file-name-nondirectory buffer-file-name)))
+        (format "node %s" file)))))
+
 ;; jade-mode
 (when (require 'sws-mode nil 'noerror))
 (when (require 'jade-mode nil 'noerror)
