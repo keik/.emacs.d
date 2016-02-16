@@ -25,4 +25,9 @@
     (add-to-list 'ac-sources 'ac-source-yasnippet)
     (add-to-list 'ac-sources 'ac-source-filename))
   (add-hook 'js2-mode-hook 'ac-js2-mode-setup)
+
+  (defun ac-js2-jsx-mode-setup ()
+    (add-to-list 'ac-sources 'ac-source-yasnippet)
+    (add-to-list 'ac-sources 'ac-source-filename))
+  (add-hook 'js2-jsx-mode-hook 'ac-js2-jsx-mode-setup)
   )

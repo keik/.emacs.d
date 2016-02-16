@@ -22,10 +22,12 @@
 (when (require 'flycheck nil 'noerror)
   (add-hook 'web-mode-hook 'flycheck-mode)
   (add-hook 'js2-mode-hook 'flycheck-mode)
+  (add-hook 'js2-jsx-mode-hook 'flycheck-mode)
   (setq-default flycheck-disabled-checkers
     (append flycheck-disabled-checkers
       '(javascript-jshint)))
   (flycheck-add-mode 'javascript-eslint 'js2-mode)
+  (flycheck-add-mode 'javascript-eslint 'js2-jsx-mode)
   (add-hook 'python-mode-hook 'flycheck-mode)
   (add-hook 'java-mode-hook 'flycheck-mode))
 
@@ -55,3 +57,9 @@
 (when (require 'jade-mode nil 'noerror)
   (add-to-list 'auto-mode-alist '("\\.styl$" . sws-mode))
   (add-to-list 'auto-mode-alist '("\\.jade$" . jade-mode)))
+
+(require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  (let ((inhibit-read-only t))
+    (ansi-color-apply-on-region (point-min) (point-max))))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
