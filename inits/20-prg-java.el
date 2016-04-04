@@ -3,9 +3,9 @@
 ;;(semantic-mode 1)
 ;;(require 'malabar-mode)
 ;;(add-to-list 'auto-mode-alist '("\\.java\\'" . malabar-mode))
-;;(add-hook 'java-mode-hook
-;;  (lambda ()
-;;    (define-key java-mode-map (kbd "C-c C-c") 'compile)
-;;    (set (make-local-variable 'compile-command)
-;;      (let ((file (file-name-nondirectory buffer-file-name)))
-;;        (format "jc %s" file)))))
+(add-hook 'java-mode-hook
+  (lambda ()
+    (define-key java-mode-map (kbd "C-c C-c") 'compile)
+    (set (make-local-variable 'compile-command)
+      (let ((file (file-name-nondirectory buffer-file-name)))
+        (format "jc %s" file)))))
