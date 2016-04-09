@@ -1,7 +1,3 @@
-1;; ---------------------------------------------------------
-;; Python
-
-;; (add-hook 'python-mode-hook 'anaconda-mode)
 (add-hook 'python-mode-hook 'jedi:setup)
 (setq jedi:complete-on-dot t)
 (add-hook 'python-mode-hook
