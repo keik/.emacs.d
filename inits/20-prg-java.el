@@ -1,8 +1,3 @@
-;;(require 'cedet)
-;;(require 'semantic)
-;;(semantic-mode 1)
-;;(require 'malabar-mode)
-;;(add-to-list 'auto-mode-alist '("\\.java\\'" . malabar-mode))
 (add-hook 'java-mode-hook
   (lambda ()
     (define-key java-mode-map (kbd "C-c C-c") 'compile)

@@ -1,0 +1,5 @@
+(unless (require 'undo-tree nil t)
+  (package-install 'undo-tree))
+(global-undo-tree-mode)
+(define-key global-map (kbd "C-?") 'undo-tree-redo)
+(define-key global-map (kbd "C-M-_") 'undo-tree-undo)

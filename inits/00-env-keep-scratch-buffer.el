@@ -1,22 +1,3 @@
-;; switch window
-(global-set-key (kbd "C-<tab>") 'other-window)
-(global-set-key (kbd "<C-S-iso-lefttab>")
-  (lambda () (interactive) (other-window -1)))
-(global-set-key (kbd "<C-S-tab>")
-  (lambda () (interactive) (other-window -1)))
-(cond (window-system
-        (setq x-select-enable-clipboard t)))
-
-;; buffer switching
-(ido-mode t)
-;;; disable ido-find-file
-(delete '(find-file . ido-find-file)
-  (cdr (cdaddr ido-minor-mode-map-entry)))
-
-;; bs-show
-(global-set-key (kbd "C-x C-b") 'bs-show)
-
-;; keep *scratch* buffer
 (add-hook 'after-save-hook
   (function
     (lambda ()
@@ -42,8 +23,3 @@
         (switch-to-buffer "*scratch*")))
     (cond ((= arg 0) (message "*scratch* is cleared up."))
       ((= arg 1) (message "another *scratch* is created")))))
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
-
-;; auto-revert
-(global-auto-revert-mode 1)
-(setq auto-revert-check-vc-info t)

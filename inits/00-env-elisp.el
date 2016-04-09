@@ -1,6 +1,5 @@
 (require 'cl)
 
-;; debug
 (setq debug-on-error t)
 
 ;; eval-print infinate
