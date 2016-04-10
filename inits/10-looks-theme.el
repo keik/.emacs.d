@@ -4,7 +4,7 @@
 (unless (require 'cyberpunk-theme nil t)
   (package-install 'cyberpunk-theme))
 (load-theme 'zenburn t)
-(set-face-background 'region "#224499")
+(set-face-background 'region "#88aaff")
 ;;(load-theme 'cyberpunk t)
 
 (set-face-attribute 'mode-line nil
