@@ -1,3 +1,5 @@
+(unless (require 'jedi nil 'noerror)
+  (package-install 'jedi))
 (add-hook 'python-mode-hook 'jedi:setup)
 (setq jedi:complete-on-dot t)
 (add-hook 'python-mode-hook
