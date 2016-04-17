@@ -3,9 +3,17 @@
 (load-theme 'zenburn t)
 (unless (require 'cyberpunk-theme nil t)
   (package-install 'cyberpunk-theme))
-(load-theme 'zenburn t)
-(set-face-background 'region "#88aaff")
-;;(load-theme 'cyberpunk t)
+;;(load-theme 'zenburn t)
+;;(set-face-background 'region "#88aaff")
+;;(set-face-attribute 'minibuffer-prompt nil
+;;  :background "#3F3F3F")
+;;(set-face-attribute 'show-paren-match-face nil
+;;  :foreground "#CCCCCC"
+;;  :background "#6699CC")
+;;(set-face-attribute 'helm-selection nil
+;;  :background "#224499")
+
+(load-theme 'cyberpunk t)
 
 (set-face-attribute 'mode-line nil
   :height 120
@@ -19,11 +27,5 @@
   :box '(:line-width 3 :color "#333333"))
 (set-face-attribute 'mode-line-buffer-id nil
   :foreground "#DDDDDD")
-(set-face-attribute 'minibuffer-prompt nil
-  :background "#3F3F3F")
-(set-face-attribute 'show-paren-match-face nil
-  :foreground "#CCCCCC"
-  :background "#6699CC")
-(set-face-attribute 'helm-selection nil
-  :background "#224499")
+
 (set-frame-parameter nil 'alpha '(85 70))
