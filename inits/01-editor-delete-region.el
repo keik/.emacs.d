@@ -1,0 +1,1 @@
+(delete-selection-mode t)
