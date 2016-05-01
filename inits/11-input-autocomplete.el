@@ -2,18 +2,16 @@
   (package-install 'auto-complete))
 
 (require 'auto-complete-config)
-;; (add-to-list 'ac-dictionary-directories "~/.emacs.d/elpa/auto-complete-20131128.233/dict/")
 (ac-config-default)
 (setq ac-use-fuzzy t)
 (global-auto-complete-mode t)
-(add-hook 'js2-jsx-mode-hook 'auto-complete-mode)
 (define-key ac-mode-map (kbd "<tab>") 'ac-start)
 (define-key ac-completing-map (kbd "<tab>") 'auto-complete)
 (define-key ac-completing-map (kbd "C-n") 'ac-next)
 (define-key ac-completing-map (kbd "C-p") 'ac-previous)
 (setq ac-auto-show-menu 0)
 
-  ;;; Add ac-sources
+;; Add ac-sources
 (defun ac-web-mode-setup ()
   (add-to-list 'ac-sources 'ac-source-yasnippet)
   (add-to-list 'ac-sources 'ac-source-filename))
