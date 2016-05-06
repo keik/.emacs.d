@@ -5,9 +5,10 @@
 (global-set-key (kbd "C-M-r") 'mc/mark-all-in-region)
 (global-unset-key "\C-t")
 (smartrep-define-key global-map "C-t"
-  '(("C-t"      . 'mc/mark-next-like-this)
-    ("n"        . 'mc/mark-next-like-this)
-    ("p"        . 'mc/mark-previous-like-this)
+  '(("C-s"      . 'mc/mark-next-like-this)
+    ("C-r"      . 'mc/mark-previous-like-this)
+    ("n"        . 'mc/mark-next-lines)
+    ("p"        . 'mc/mark-previous-lines)
     ("m"        . 'mc/mark-more-like-this-extended)
     ("u"        . 'mc/unmark-next-like-this)
     ("U"        . 'mc/unmark-previous-like-this)
