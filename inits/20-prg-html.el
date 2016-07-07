@@ -6,6 +6,7 @@
 (add-to-list 'auto-mode-alist '("\\.ect$" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.jsp$" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tag$" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.erb$" . web-mode))
 (define-key web-mode-map (kbd "C-c C-v") 'browse-url-of-buffer)
 
 (setq browse-url-browser-function 'browse-url-generic
