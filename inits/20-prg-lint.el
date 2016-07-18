@@ -10,3 +10,4 @@
 (flycheck-add-mode 'javascript-eslint 'js2-jsx-mode)
 (add-hook 'python-mode-hook 'flycheck-mode)
 (add-hook 'java-mode-hook 'flycheck-mode)
+(add-hook 'ruby-mode-hook 'flycheck-mode)
