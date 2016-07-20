@@ -44,3 +44,7 @@
            (setq mode-name mode-str)))))
 
 (add-hook 'after-change-major-mode-hook 'clean-mode-line)
+
+(unless (require 'anzu nil t)
+  (package-install 'anzu))
+(global-anzu-mode +1)
