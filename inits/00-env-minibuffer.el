@@ -1,1 +1,1 @@
-(setq enable-recursive-minibuffers t)
+(setq enable-recursive-minibuffers nil)
