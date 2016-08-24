@@ -1,1 +1,3 @@
-(editorconfig-mode 1)
+(unless (require 'editorconfig nil t)
+  (package-install 'editorconfig))
+(editorconfig-mode)
