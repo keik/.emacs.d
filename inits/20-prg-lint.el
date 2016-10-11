@@ -6,8 +6,7 @@
 (setq-default flycheck-disabled-checkers
   (append flycheck-disabled-checkers
     '(javascript-jshint)))
-(flycheck-add-mode 'javascript-eslint 'js2-mode)
-(flycheck-add-mode 'javascript-eslint 'js2-jsx-mode)
+(flycheck-add-mode 'javascript-eslint 'web-mode)
 (add-hook 'python-mode-hook 'flycheck-mode)
 (add-hook 'java-mode-hook 'flycheck-mode)
 (add-hook 'ruby-mode-hook 'flycheck-mode)
