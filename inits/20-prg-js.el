@@ -1,14 +1,11 @@
-(unless (require 'js2-mode nil t)
-  (package-install 'js2-mode))
+(unless (require 'web-mode nil t)
+  (package-install 'web-mode))
 
 (add-to-list 'auto-mode-alist '("\\.jsx?$" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.es$" . web-mode))
 
 (defun my-web-mode-hook ()
   "Hooks for Web mode."
-  (make-local-variable 'exec-path)
-  ;; TODO exec local node_modules
-  ;;(push "/Users/keik/tmp/eeeafea/node_modules/.bin/" exec-path)
   (setq web-mode-attr-indent-offset nil)
   (setq web-mode-markup-indent-offset 2)
   (setq web-mode-css-indent-offset 2)
@@ -19,7 +16,20 @@
 (add-hook 'web-mode-hook 'my-web-mode-hook)
 
 (setq web-mode-content-types-alist
-  '(("jsx" . "\\.jsx?$")))
+  (if (boundp 'web-mode-content-types-alist) web-mode-content-types-alist '()))
+(add-to-list 'web-mode-content-types-alist '("jsx" . "\\.jsx?$"))
+
+(defun my/use-eslint-from-node-modules ()
+  "http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable"
+  (let* ((root (locate-dominating-file
+                (or (buffer-file-name) default-directory)
+                "node_modules"))
+         (eslint (and root
+                      (expand-file-name "node_modules/eslint/bin/eslint.js"
+                                        root))))
+    (when (and eslint (file-executable-p eslint))
+      (setq-local flycheck-javascript-eslint-executable eslint))))
+(add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
 
 (defadvice web-mode-highlight-part (around tweak-jsx activate)
   (message (format "web-mode-content-type: %s" web-mode-content-type))

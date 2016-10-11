@@ -1,8 +1,6 @@
 (unless (require 'flycheck nil t)
   (package-install 'flycheck))
 (add-hook 'web-mode-hook 'flycheck-mode)
-(add-hook 'js2-mode-hook 'flycheck-mode)
-(add-hook 'js2-jsx-mode-hook 'flycheck-mode)
 (setq-default flycheck-disabled-checkers
   (append flycheck-disabled-checkers
     '(javascript-jshint)))
