@@ -1,0 +1,19 @@
+# -*- mode: snippet -*-
+# name: react-component
+# key: react-component
+# --
+import React, { Component, PropTypes } from 'react'
+
+export default class $1 extends Component {
+  static propTypes = {
+    // user: PropTypes.string.isRequired,
+  }
+
+  render = () => {
+    // const { user } = this.props
+    return (
+      <div>
+      </div>
+    )
+  }
+}
