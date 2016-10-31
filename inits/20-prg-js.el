@@ -13,7 +13,12 @@
   (setq web-mode-sql-indent-offset 2)
   (setq indent-tabs-mode nil)
   (setq tab-width 2)
+  (add-to-list 'web-mode-indentation-params '("lineup-args" . nil))
   (add-to-list 'web-mode-indentation-params '("lineup-calls" . nil))
+  (add-to-list 'web-mode-indentation-params '("lineup-concats" . nil))
+  (add-to-list 'web-mode-indentation-params '("lineup-quotes" . nil))
+  (add-to-list 'web-mode-indentation-params '("lineup-ternary" . nil))
+  ;;(add-to-list 'web-mode-indentation-params '("case-extra-offset" . nil))
   )
 
 (add-hook 'web-mode-hook 'my-web-mode-hook)
