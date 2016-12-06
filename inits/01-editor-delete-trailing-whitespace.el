@@ -1,1 +1,2 @@
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+;; disable to control by editorconfig
+;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
