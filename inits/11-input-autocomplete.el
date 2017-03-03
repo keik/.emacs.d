@@ -21,3 +21,7 @@
   (add-to-list 'ac-sources 'add-ac-source-yasnippet)
   (add-to-list 'ac-sources 'ac-source-filename))
 (add-hook 'css-mode-hook 'ac-css-mode-setup)
+
+(defun ac-coffee-mode-setup ()
+  (add-to-list 'ac-sources 'ac-source-filename))
+(add-hook 'coffee-mode-hook 'ac-coffee-mode-setup)
