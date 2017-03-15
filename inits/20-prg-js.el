@@ -18,7 +18,7 @@
   (add-to-list 'web-mode-indentation-params '("lineup-concats" . nil))
   (add-to-list 'web-mode-indentation-params '("lineup-quotes" . nil))
   (add-to-list 'web-mode-indentation-params '("lineup-ternary" . nil))
-  ;;(add-to-list 'web-mode-indentation-params '("case-extra-offset" . nil))
+  (add-to-list 'web-mode-indentation-params '("case-extra-offset" . nil))
   )
 
 (add-hook 'web-mode-hook 'my-web-mode-hook)
