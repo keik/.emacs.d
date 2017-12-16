@@ -12,23 +12,28 @@
 
 ;;; display for minor mode
 (defvar mode-line-cleaner-alist
-  `((auto-complete-mode . " α")
+  `(
+     (auto-complete-mode . "α ")
+     (auto-revert-mode . "")
      ;;(paredit-mode . " π")
      ;;(eldoc-mode . "")
      ;;(abbrev-mode . "")
-     ;; Major modes
-     (emacs-lisp-mode . "EL")
-     (emmet-mode . "ε")
+     (anzu-mode . "")
+     (editorconfig-mode . "")
+     (emacs-lisp-mode . "EL ")
+     (emmet-mode . "ε ")
+     (flycheck-mode . "φ ")
+     (git-gutter-mode . "")
      (global-whitespace-mode . "")
-     (flycheck-mode . " φ")
-     (js2-mode . "JS")
-     (lisp-interaction-mode . "λ")
+     (lisp-interaction-mode . "λ ")
      ;;(hi-lock-mode . "")
-     (python-mode . "PY")
+     (prettier-js-mode . "☆ ")
+     (python-mode . "PY ")
      ;;(nxhtml-mode . "nx")
-     (markdown-mode . "MD")
-     (undo-tree-mode . " θ")
-     (yas-minor-mode . " υ")
+     (markdown-mode . "MD ")
+     (undo-tree-mode . "θ ")
+     (yas-minor-mode . "υ ")
+     (web-mode . "∑ ")
      ))
 
 (defun clean-mode-line ()
@@ -48,3 +53,8 @@
 (unless (require 'anzu nil t)
   (package-install 'anzu))
 (global-anzu-mode +1)
+
+(setq-default mode-line-buffer-identification
+  (cons
+    '(:eval (replace-regexp-in-string "^.*/\\(.*\\)/" "(\\1/) " default-directory))
+    mode-line-buffer-identification))
