@@ -25,3 +25,10 @@
 (defun ac-coffee-mode-setup ()
   (add-to-list 'ac-sources 'ac-source-filename))
 (add-hook 'coffee-mode-hook 'ac-coffee-mode-setup)
+
+;; 日本語入力時ac無効化
+;; http://d.hatena.ne.jp/IMAKADO/20090813/1250130343
+(defadvice ac-word-candidates (after remove-word-contain-japanese activate)
+  (let ((contain-japanese (lambda (s) (string-match (rx (category japanese)) s))))
+    (setq ad-return-value
+          (remove-if contain-japanese ad-return-value))))
