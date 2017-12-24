@@ -5,13 +5,13 @@
 (set-face-attribute 'mode-line nil
   :height 120
   :foreground "#88CCFF"
-  :background "#222222"
-  :box '(:line-width 3 :color "#222222"))
+  :background "#555555"
+  :box '(:line-width 1 :color "#88CCFF"))
 (set-face-attribute 'mode-line-inactive nil
   :height 120
-  :foreground "#555555"
-  :background "#333333"
-  :box '(:line-width 3 :color "#333333"))
+  :foreground "#777777"
+  :background "#555555"
+  :box '(:line-width 1 :color "#333333"))
 (set-face-attribute 'mode-line-buffer-id nil
   :foreground "#DDDDDD")
 
