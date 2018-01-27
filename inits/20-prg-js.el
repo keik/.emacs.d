@@ -27,18 +27,6 @@
   (if (boundp 'web-mode-content-types-alist) web-mode-content-types-alist '()))
 (add-to-list 'web-mode-content-types-alist '("jsx" . "\\.jsx?$"))
 
-(defun my/use-eslint-from-node-modules ()
-  "http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable"
-  (let* ((root (locate-dominating-file
-                (or (buffer-file-name) default-directory)
-                "node_modules"))
-         (eslint (and root
-                      (expand-file-name "node_modules/eslint/bin/eslint.js"
-                                        root))))
-    (when (and eslint (file-executable-p eslint))
-      (setq-local flycheck-javascript-eslint-executable eslint))))
-(add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
-
 (defadvice web-mode-highlight-part (around tweak-jsx activate)
   (message (format "web-mode-content-type: %s" web-mode-content-type))
   (if (equal web-mode-content-type "jsx")
