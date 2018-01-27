@@ -1,6 +1,0 @@
-# -*- mode: snippet -*-
-# name: import-react
-# key: import-react
-# --
-import React from 'react'
-import ReactDOM from 'react-dom'

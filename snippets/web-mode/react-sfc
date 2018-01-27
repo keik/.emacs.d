@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+# name: react-sfc
+# key: react-sfc
+# --
+// @flow
+
+import * as React from "react"
+
+type Props = any
+
+const $1 = (props: Props) => (
+  <div>
+    TODO
+  </div>
+)
+
+export default $1
