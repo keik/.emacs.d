@@ -24,5 +24,8 @@
 (add-hook 'java-mode-hook 'flycheck-mode)
 (add-hook 'ruby-mode-hook 'flycheck-mode)
 
+(setq flycheck-command-wrapper-function
+      (lambda (command)
+        (append '("bundle" "exec") command)))
 ;; (unless (require 'flycheck-flow nil t)
 ;;   (package-install 'flycheck-flow))
