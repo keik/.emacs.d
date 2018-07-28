@@ -3,3 +3,4 @@
 (tool-bar-mode 0)
 (global-unset-key "\C-z")
 (setq ring-bell-function 'ignore)
+(setq-default indent-tabs-mode nil)
