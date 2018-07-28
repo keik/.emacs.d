@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# shim command for iterm2 command click
+# use like `~/.emacs.d/emacsclient-wrapper -n \2 \1`
+
 if [[ $# -eq 3 ]]; then
     args="$1 +$2 $3"
 else
