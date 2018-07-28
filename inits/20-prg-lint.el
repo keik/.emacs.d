@@ -2,8 +2,8 @@
   (package-install 'flycheck))
 
 (setq-default flycheck-disabled-checkers
-  (append flycheck-disabled-checkers
-    '(javascript-jshint)))
+              (append flycheck-disabled-checkers
+                      '(javascript-jshint)))
 
 (defun my/use-eslint-from-node-modules ()
   "http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable"
@@ -15,10 +15,11 @@
                                         root))))
     (when (and eslint (file-executable-p eslint))
       (setq-local flycheck-javascript-eslint-executable eslint))))
-(add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
-(flycheck-add-mode 'javascript-eslint 'web-mode)
 
-(add-hook 'web-mode-hook 'flycheck-mode)
+(add-hook 'web-mode-hook '(lambda ()
+                            (flycheck-add-mode 'javascript-eslint 'web-mode)
+                            (my/use-eslint-from-node-modules)
+                            (flycheck-mode)))
 (add-hook 'coffee-mode-hook 'flycheck-mode)
 (add-hook 'python-mode-hook 'flycheck-mode)
 (add-hook 'java-mode-hook 'flycheck-mode)
