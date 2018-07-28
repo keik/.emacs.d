@@ -23,10 +23,11 @@
 (add-hook 'coffee-mode-hook 'flycheck-mode)
 (add-hook 'python-mode-hook 'flycheck-mode)
 (add-hook 'java-mode-hook 'flycheck-mode)
-(add-hook 'ruby-mode-hook 'flycheck-mode)
-
-(setq flycheck-command-wrapper-function
-      (lambda (command)
-        (append '("bundle" "exec") command)))
+(add-hook 'ruby-mode-hook '(lambda ()
+                             (setq-local flycheck-ruby-rubocop-executable "echo") ;dummy to prevent missing execution and marked as disabled...
+                             (setq-local flycheck-command-wrapper-function
+                                         (lambda (command)
+                                           (append '("bundle" "exec" "rubocop") (cdr command))))
+                             (flycheck-mode)))
 ;; (unless (require 'flycheck-flow nil t)
 ;;   (package-install 'flycheck-flow))
