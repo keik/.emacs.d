@@ -5,9 +5,12 @@
   (let* ((root (locate-dominating-file
                 (or (buffer-file-name) default-directory)
                 "node_modules"))
-         (prettier (and root
-                      (expand-file-name "node_modules/.bin/prettier"
-                                        root))))
+         (prettier (if root
+                       (expand-file-name "node_modules/.bin/prettier"
+                                         root)
+                     "prettier"
+                     )))
+    (message prettier)
     (when (and prettier (file-executable-p prettier))
       (setq-local prettier-js-command prettier))))
 (add-hook 'prettier-js-mode-hook #'my/use-prettier-from-node-modules)
