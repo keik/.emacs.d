@@ -1,12 +1,15 @@
-(unless (require 'flycheck nil t)
-  (package-install 'flycheck))
+(use-package flycheck
+  :ensure t
+  :config
+  (flycheck-mode +1)
+  )
 
 (setq-default flycheck-disabled-checkers
               (append flycheck-disabled-checkers
                       '(javascript-jshint)))
 
 (defun my/use-eslint-from-node-modules ()
-  "http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable"
+  "See http://emacs.stackexchange.com/questions/21205/flycheck-with-file-relative-eslint-executable ."
   (let* ((root (locate-dominating-file
                 (or (buffer-file-name) default-directory)
                 "node_modules"))
