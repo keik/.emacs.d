@@ -7,6 +7,9 @@
 (package-initialize)
 ;;(package-refresh-contents)
 
+(unless (require 'use-package nil t)
+  (package-install 'use-package))
+
 ;; load inits
 (unless (require 'init-loader nil t)
   (package-install 'init-loader))
