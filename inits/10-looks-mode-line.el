@@ -1,7 +1,3 @@
-(unless (require 'nyan-mode nil t)
-  (package-install 'nyan-mode))
-(nyan-mode)
-
 (setq eol-mnemonic-dos "CRLF")
 (setq eol-mnemonic-mac "CR")
 (setq eol-mnemonic-unix "LF")
