@@ -1,5 +1,8 @@
-ac-comphist.dat
-auto-save-list/
-elpa/
-history
-recentf
+/.cache
+/.lsp-session-v1
+/ac-comphist.dat
+/auto-save-list/
+/elpa
+/history
+/recentf
+/transient

@@ -1,5 +1,0 @@
-# -*- mode: snippet -*-
-# name: ar
-# key: ar
-# --
-($1) => $2

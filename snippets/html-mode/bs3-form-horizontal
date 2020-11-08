@@ -1,7 +1,0 @@
-# -*- mode: snippet; require-final-newline: nil -*-
-# name: bs3-form-horizontal
-# key: bs3-form-horizontal
-# --
-<form class="form-horizontal">
-$0
-</form>

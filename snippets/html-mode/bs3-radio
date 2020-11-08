@@ -1,8 +1,0 @@
-# -*- mode: snippet; require-final-newline: nil -*-
-# name: bs3-radio
-# key: bs3-radio
-# binding: direct-keybinding
-# --
-<label class="radio-inline">
-  <input type="radio"> $0
-</label>

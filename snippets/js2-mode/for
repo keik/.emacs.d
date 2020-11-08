@@ -1,8 +1,0 @@
-# -*- mode: snippet; require-final-newline: nil -*-
-# name: for
-# key: for
-# binding: direct-keybinding
-# --
-for(var ${1:i} = 0, len = ${2:collection}.length; $1 < len; $1++) {
-  $0
-}
