@@ -1,4 +1,11 @@
-(setq ruby-insert-encoding-magic-comment nil)
+(use-package ruby-mode
+  :ensure t
+  :config
+  (setq ruby-insert-encoding-magic-comment nil)
+  (bind-keys :map ruby-mode-map
+             ("M-." . dumb-jump-go))
+  )
+
 ;; (unless (require 'rbenv nil 'noerror)
 ;;   (package-install 'rbenv))
 ;; (global-rbenv-mode)
@@ -6,10 +13,15 @@
 ;; (unless (require 'rufo nil 'noerror)
 ;;   (package-install 'rufo))
 
-;; (unless (require 'rspec-mode nil 'noerror)
-;;   (package-install 'rspec-mode))
+(use-package rspec-mode
+  :ensure t
+  :config
+  (add-hook 'after-init-hook 'inf-ruby-switch-setup)
+  (setenv "PAGER" (executable-find "cat"))
+  )
 
-;; (unless (require 'inf-ruby nil 'noerror)
+(use-package inf-ruby
+  :ensure t)
 ;;   (package-install 'inf-ruby))
 ;; (setenv "PAGER" (executable-find "cat"))
 ;; (setq inf-ruby-prompt-read-only nil)

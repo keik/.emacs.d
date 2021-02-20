@@ -9,11 +9,11 @@
     (when (and eslint (file-executable-p eslint))
       (setq-local flycheck-javascript-eslint-executable eslint))))
 
-(defun my/use-rubocop-from-bundle ()
-  (setq-local flycheck-ruby-rubocop-executable "echo") ;dummy to prevent missing execution and marked as disabled...
-  (setq-local flycheck-command-wrapper-function
-              (lambda (command)
-                (append '("bundle" "exec" "rubocop") (cdr command)))))
+;; (defun my/use-rubocop-from-bundle ()
+;;   (setq-local flycheck-ruby-rubocop-executable "echo") ;dummy to prevent missing execution and marked as disabled...
+;;   (setq-local flycheck-command-wrapper-function
+;;               (lambda (command)
+;;                 (append '("bundle" "exec" "rubocop") (cdr command)))))
 
 (use-package flycheck
   :ensure t
@@ -24,13 +24,18 @@
                 '(
                   ember-template
                   handlebars
+                  chef-foodcritic
+                  ruby-standard
+                  ruby-reek
+                  ruby-rubylint
+                  ruby-jruby
                   typescript-tslint
                   )
                 )
 
   ;; execute の探し方をカスタマイズ
   (add-hook 'flycheck-mode-hook 'my/use-eslint-from-node-modules)
-  (add-hook 'ruby-mode-hook 'my/use-rubocop-from-bundle)
+  ;; (add-hook 'ruby-mode-hook 'my/use-rubocop-from-bundle)
 
   ;; major-mode に checker を追加
   (flycheck-add-mode 'javascript-eslint 'web-mode)
