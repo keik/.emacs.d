@@ -1,30 +1,17 @@
 ;;; Code:
-(defvar lsp-clients-flow-server)
-(defun my/use-flow-from-node-modules ()
-  "Use flow server from node_moduels."
-  (interactive)
-  (let* ((root (locate-dominating-file
-                (or (buffer-file-name) default-directory)
-                "node_modules"))
-         (flow (and root
-                      (expand-file-name "node_modules/.bin/flow"
-                                        root))))
-    (when (and flow (file-executable-p flow))
-      (setq-local lsp-clients-flow-server flow))))
-
 (defvar flycheck-checker)
 (defvar flycheck-checkers)
 (use-package lsp-mode
   :ensure t
   :init
   (setq lsp-keymap-prefix "s-l")
+  (setq lsp-completion-enable nil)
   :hook
   ;; (lsp-mode . lsp-enable-which-key-integration)
   ;; (go-mode . lsp)
   (typescript-mode . lsp)
   ;; (yaml-mode . lsp)
   (web-mode . lsp)
-  (web-mode . my/use-flow-from-node-modules)
   ;; lsp-diagnostics-mode 適用時は lsp チェッカーが manually select された状態になるが、
   ;; 言語向け lint checker を flycheck-chckers 優先度順で自動適用したいので解除する。
   (lsp-diagnostics-mode . (lambda () (setq-local flycheck-checker nil)))
