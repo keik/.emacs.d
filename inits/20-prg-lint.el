@@ -9,17 +9,9 @@
     (when (and eslint (file-executable-p eslint))
       (setq-local flycheck-javascript-eslint-executable eslint))))
 
-;; (defun my/use-rubocop-from-bundle ()
-;;   (setq-local flycheck-ruby-rubocop-executable "echo") ;dummy to prevent missing execution and marked as disabled...
-;;   (setq-local flycheck-command-wrapper-function
-;;               (lambda (command)
-;;                 (append '("bundle" "exec" "rubocop") (cdr command)))))
-
 (use-package flycheck
   :ensure t
-
   :config
-  ;; 使わない
   (setq-default flycheck-disabled-checkers
                 '(
                   ember-template
@@ -56,7 +48,12 @@
   )
 
 (flycheck-define-checker bundle/ruby-rubocop
-  "A Ruby syntax and style checker using the RuboCop tool."
+  "A Ruby syntax and style checker using the RuboCop tool.
+   Puts .dir-locals.el to each project root with contents
+
+     ((ruby-mode . ((flycheck-checker . bundle/ruby-rubocop))))
+
+  "
   :command ;; ("ruby" "--version")
   ("bundle" "ex" "rubocop" "--format" "emacs"
    (config-file "--config" flycheck-rubocoprc)

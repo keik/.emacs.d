@@ -14,5 +14,6 @@
   :hook
   (web-mode . prettier-js-mode)
   (typescript-mode . prettier-js-mode)
+  (ruby-mode . prettier-js-mode)
   (prettier-js-mode . my/use-prettier-from-node-modules)
   )

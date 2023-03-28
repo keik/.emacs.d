@@ -5,7 +5,7 @@
   :ensure t
   :init
   (setq lsp-keymap-prefix "s-l")
-  (setq lsp-completion-enable nil)
+  (setq lsp-completion-enable t)
   :hook
   ;; (lsp-mode . lsp-enable-which-key-integration)
   ;; (go-mode . lsp)
