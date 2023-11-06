@@ -13,7 +13,10 @@
   :ensure t
   :hook
   (web-mode . prettier-js-mode)
-  (typescript-mode . prettier-js-mode)
-  (ruby-mode . prettier-js-mode)
+  (typescript-ts-mode . prettier-js-mode)
+  (tsx-ts-mode-hook . prettier-js-mode)
   (prettier-js-mode . my/use-prettier-from-node-modules)
   )
+
+;; なぜか上の設定であかんので
+(add-hook 'tsx-ts-mode-hook 'prettier-js-mode)

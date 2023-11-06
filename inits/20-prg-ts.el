@@ -1,4 +1,4 @@
-(use-package typescript-mode
+(use-package typescript-ts-mode
   :ensure t
   :mode
   "\\.ts$"

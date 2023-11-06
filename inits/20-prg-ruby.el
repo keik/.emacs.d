@@ -1,6 +1,13 @@
+;;; 20-prg-ruby.el --- settings for Ruby language
+;;; Commentary:
+;;; Code:
 (use-package ruby-mode
   :ensure t
   :config
+  ;; https://emacs.stackexchange.com/questions/5452/before-save-hook-for-cc-mode
+  (add-hook 'ruby-mode-hook (lambda () (add-hook 'before-save-hook 'lsp-format-buffer nil 'local)))
+  (add-hook 'ruby-mode-hook (lambda () (add-hook 'after-save-hook (lambda () (shell-command (format "cd %s && bundle ex stree write %s" (locate-dominating-file default-directory ".git") buffer-file-name))) nil t)))
+
   (setq ruby-insert-encoding-magic-comment nil)
   (bind-keys :map ruby-mode-map
              ("M-." . dumb-jump-go))
@@ -34,3 +41,5 @@
 ;; ;;   :ensure t
 ;; ;;   :hook (ruby-mode . ggtags-mode)
 ;; ;;   )
+
+;;; 20-prg-ruby.el ends here

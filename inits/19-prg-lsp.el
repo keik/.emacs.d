@@ -1,31 +1,25 @@
+;;; 19-prg-lsp.el --- settings for Language Server Protocol
+;;; Commentary:
 ;;; Code:
 (defvar flycheck-checker)
 (defvar flycheck-checkers)
 (use-package lsp-mode
   :ensure t
   :init
-  (setq lsp-keymap-prefix "s-l")
-  (setq lsp-completion-enable t)
+  (setq lsp-keymap-prefix "C-l")
+  (setq read-process-output-max (* 1024 1024))
+  (setq gc-cons-threshold 100000000)
+  (setq lsp-idle-delay 1.000)
+  (setq lsp-enable-file-watchers nil)
+  (setq lsp-disabled-clients '(ruby-ls lsp-ruby-ls rubocop-ls ruby-syntax-tree-ls typeprof-ls))
   :hook
-  ;; (lsp-mode . lsp-enable-which-key-integration)
-  ;; (go-mode . lsp)
-  (typescript-mode . lsp)
-  ;; (yaml-mode . lsp)
+  (typescript-ts-mode . lsp)
   (web-mode . lsp)
-  ;; lsp-diagnostics-mode 適用時は lsp チェッカーが manually select された状態になるが、
-  ;; 言語向け lint checker を flycheck-chckers 優先度順で自動適用したいので解除する。
-  (lsp-diagnostics-mode . (lambda () (setq-local flycheck-checker nil)))
-  :config
-  ;; flycheck-checkers 内で lsp の位置をを最後尾に移動する。
-  ;; checker の auto select は flycheck-checkers の定義順に行われるが、
-  ;; lsp はあらゆる言語で選択されうるために next checker を一意に指定しにくかったり、動作が重かったりもするので、
-  ;; まずは mode に適した軽量な checker を選択し、それの next checker として lsp を設定する。
-  (lsp-diagnostics-mode)
-  (setq flycheck-checkers (delete 'lsp flycheck-checkers))
-  (add-to-list 'flycheck-checkers 'lsp t)
-  (flycheck-add-next-checker 'javascript-eslint 'lsp)
-  :commands lsp)
+  )
 
-(use-package lsp-ui
-  :ensure t
-  :commands lsp-ui-mode)
+(setq lsp-sorbet-as-add-on t)
+(setq lsp-sorbet-use-bundler t)
+
+;; don't work above settings for some reason
+(add-hook 'tsx-ts-mode-hook 'lsp)
+;;; 19-prg-lsp.el ends here

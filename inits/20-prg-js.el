@@ -4,7 +4,7 @@
    "\\.js$"
    "\\.jsx$"
   :config
-  (add-hook 'web-mode-hook '(lambda () (setq web-mode-enable-auto-indentation nil)))
+  (add-hook 'web-mode-hook #'(lambda () (setq web-mode-enable-auto-indentation nil)))
   ;;(add-hook 'web-mode-hook 'my/web-mode-on-js)
   ;;(setq web-mode-enable-auto-indentation nil)
   ;;(setq web-mode-attr-indent-offset 2)
