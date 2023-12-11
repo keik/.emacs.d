@@ -1,7 +1,8 @@
 /.cache
 /.lsp-session-v1
 /ac-comphist.dat
-/auto-save-list/
+/auto-save-list
+/eln-cache
 /elpa
 /history
 /recentf
