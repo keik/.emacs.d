@@ -5,5 +5,5 @@
   (package-install 'cyberpunk-theme))
  (load-theme 'cyberpunk t)
 (set-face-background 'default "unspecified-bg")
-(set-face-foreground 'font-lock-comment-face "#CCCCCC")
+(set-face-foreground 'font-lock-comment-face "#AAAAAA")
 ;;; 10-looks-theme.el ends here
