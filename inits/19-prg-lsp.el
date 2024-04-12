@@ -11,11 +11,13 @@
   (setq gc-cons-threshold 100000000)
   (setq lsp-idle-delay 1.000)
   (setq lsp-enable-file-watchers nil)
-  (setq lsp-disabled-clients '(ruby-ls lsp-ruby-ls rubocop-ls ruby-syntax-tree-ls typeprof-ls))
+  (setq lsp-disabled-clients '(ruby-ls ruby-lsp-ls ruby-syntax-tree-ls rubocop-ls typeprof-ls))
   :hook
   (ruby-mode . lsp)
   (typescript-ts-mode . lsp)
-  (web-mode . lsp)
+  )
+(use-package lsp-ui
+  :ensure t
   )
 
 (setq lsp-sorbet-as-add-on t)
