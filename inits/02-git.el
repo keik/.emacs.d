@@ -13,6 +13,7 @@
   ("C-c g" . helm-git-grep)
   :config
   (setq helm-allow-mouse nil)
+  (setq helm-git-grep-pathspecs '(":!*.storyshot"))
 )
 ;; show chagnes on Git at line
 ;; (unless (require 'git-gutter nil t)
