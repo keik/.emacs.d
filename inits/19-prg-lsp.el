@@ -13,6 +13,8 @@
   (setq lsp-enable-file-watchers nil)
   (setq lsp-disabled-clients '(ruby-ls ruby-lsp-ls ruby-syntax-tree-ls rubocop-ls typeprof-ls))
   :hook
+  (c-mode . lsp)
+  (go-mode . lsp)
   (ruby-mode . lsp)
   (typescript-ts-mode . lsp)
   )
