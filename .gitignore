@@ -1,9 +1,9 @@
 /.cache
 /.lsp-session-v1
-/ac-comphist.dat
 /auto-save-list
-/eln-cache
+/custom.el
 /elpa
 /history
 /recentf
 /transient
+/tree-sitter
