@@ -15,7 +15,9 @@
   :hook
   (ruby-mode . lsp)
   (typescript-ts-mode . lsp)
+  (go-mode . lsp)
   )
+
 (use-package lsp-ui
   :ensure t
   )
