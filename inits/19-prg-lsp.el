@@ -15,6 +15,8 @@
   :hook
   (ruby-mode . lsp)
   (typescript-ts-mode . lsp)
+  ;; refere below
+  ;; (tsx-ts-mode-hook . lsp)
   (go-mode . lsp)
   )
 
@@ -27,4 +29,5 @@
 
 ;; don't work above settings for some reason
 (add-hook 'tsx-ts-mode-hook 'lsp)
+
 ;;; 19-prg-lsp.el ends here
