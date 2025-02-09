@@ -123,24 +123,15 @@ Specify to clear or create scratch buffer with ARG"
 (set-face-background 'whitespace-trailing "#666666")
 (set-face-underline  'whitespace-trailing nil)
 
-(use-package helm
-  :ensure t
-  :bind
-  ;;("C-x b" . helm-buffers-list)
-  ("C-x C-f" . helm-find-files)
-  ("C-x C-r" . helm-recentf)
-  ("C-x b" . helm-mini)
-  ("M-x" . helm-M-x)
-  ("M-y" . helm-show-kill-ring)
-  :config
-  (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to do persistent action
-  (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
-  (define-key helm-map (kbd "C-z")  'helm-select-action)
-  (define-key helm-map (kbd "C-w")  'kill-region) ;; helm セクションで無効化される C-w kill-region を復活
-  )
-;; おためし
+;; minibuffer
+
+(fido-vertical-mode)
+(add-hook 'minibuffer-setup-hook
+          (lambda ()
+            (setq-local completion-styles '(orderless))) t)
+(global-set-key (kbd "C-x C-r") 'recentf-open)
 (require 'recentf)
-(setq recentf-max-menu-items 1000)
+(setq recentf-max-menu-items 100)
 (setq recentf-max-saved-items 1000)
 
 (use-package popwin :ensure t :config (popwin-mode 1))
