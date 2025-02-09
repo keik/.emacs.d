@@ -47,6 +47,7 @@
   :ensure t
   :config
   (global-anzu-mode +1))
+
 ; show recent directory of current file
 (setq-default mode-line-buffer-identification
   (cons
@@ -64,8 +65,7 @@
   (function
     (lambda ()
       (if (string= "*scratch*" (buffer-name))
-        (progn (my-make-scratch 0) nil)
-        t))))
+        (progn (my-make-scratch 0) nil) t))))
 (defun my-make-scratch (&optional arg)
   "Create scratch buffer always.
 Specify to clear or create scratch buffer with ARG"
@@ -90,38 +90,8 @@ Specify to clear or create scratch buffer with ARG"
   (other-window 1))
 (global-set-key (kbd "C-t") 'other-window-or-split)
 
-;; theme
-
-(use-package cyberpunk-theme
-  :ensure t
-  :config
-   (load-theme 'cyberpunk t)
-   (set-face-background 'default "unspecified-bg")
-   (set-face-foreground 'font-lock-comment-face "#AAAAAA"))
-
-; whitespaces
-(global-whitespace-mode)
-(require 'whitespace)
-(setq whitespace-style '(face
-                          tabs
-                          trailing
-                          tab-mark
-                          spaces
-                          space-mark))
-(setq whitespace-display-mappings
-  '((space-mark ?\u3000 [?\u25a1])
-     (tab-mark ?\t [?\xBB ?\t] [?\\ ?\t])))
-; (tab-mark   ?\t	  [?\xBB ?\t])
-(setq whitespace-space-regexp "\\(\u3000+\\)")
-(set-face-foreground 'whitespace-tab "#666666")
-(set-face-background 'whitespace-tab nil)
-(set-face-underline  'whitespace-tab nil)
-(set-face-foreground 'whitespace-space nil)
-(set-face-background 'whitespace-space nil)
-(set-face-underline  'whitespace-space nil)
-(set-face-foreground 'whitespace-trailing nil)
-(set-face-background 'whitespace-trailing "#666666")
-(set-face-underline  'whitespace-trailing nil)
+; popup
+(use-package popwin :ensure t :config (popwin-mode 1))
 
 ;; minibuffer
 
@@ -134,26 +104,46 @@ Specify to clear or create scratch buffer with ARG"
 (setq recentf-max-menu-items 100)
 (setq recentf-max-saved-items 1000)
 
-(use-package popwin :ensure t :config (popwin-mode 1))
+;; theme
+
+(use-package cyberpunk-theme
+  :ensure t
+  :config
+   (load-theme 'cyberpunk t)
+   (set-face-background 'default "unspecified-bg")
+   (set-face-foreground 'font-lock-comment-face "#AAAAAA"))
+
+; whitespaces
+(global-whitespace-mode)
+(require 'whitespace)
+(setq whitespace-style '(face space-mark spaces tab-mark tabs trailing))
+(setq whitespace-display-mappings
+  '((space-mark ?\u3000 [?\u25a1])
+     (tab-mark ?\t [?\xBB ?\t] [?\\ ?\t])))
+(setq whitespace-space-regexp "\\(\u3000+\\)")
+(set-face-foreground 'whitespace-tab "#666666")
+(set-face-background 'whitespace-tab nil)
+(set-face-underline  'whitespace-tab nil)
+(set-face-foreground 'whitespace-space nil)
+(set-face-background 'whitespace-space nil)
+(set-face-underline  'whitespace-space nil)
+(set-face-foreground 'whitespace-trailing nil)
+(set-face-background 'whitespace-trailing "#666666")
+(set-face-underline  'whitespace-trailing nil)
+
+;; editor
 
 (use-package undo-tree :ensure t
   :config
   (global-undo-tree-mode)
   (setq undo-tree-auto-save-history nil))
 
-(use-package magit :ensure t)
-
-(use-package helm-git-grep
-  :ensure t
-  :bind
-  ("C-c g" . helm-git-grep)
-  :config
-  (setq helm-allow-mouse nil)
-  (setq helm-git-grep-pathspecs '(":!*.storyshot")))
-
 ;;; ================================================================
 ;;; programming
 ;;; ================================================================
+
+;; Git
+(use-package magit :ensure t)
 
 ;; LSP
 (use-package lsp-mode
