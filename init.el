@@ -89,6 +89,9 @@ Specify to clear or create scratch buffer with ARG"
     (split-window-horizontally))
   (other-window 1))
 (global-set-key (kbd "C-t") 'other-window-or-split)
+(require 'dired)
+(with-eval-after-load 'dired
+  (define-key dired-mode-map (kbd "C-t") 'other-window-or-split))
 
 ; popup
 (use-package popwin :ensure t :config (popwin-mode 1))
@@ -101,7 +104,8 @@ Specify to clear or create scratch buffer with ARG"
             (setq-local completion-styles '(orderless))) t)
 (global-set-key (kbd "C-x C-r") 'recentf-open)
 (require 'recentf)
-(setq recentf-max-menu-items 100)
+(recentf-mode 1)
+(setq recentf-max-menu-items 1000)
 (setq recentf-max-saved-items 1000)
 
 ;; theme
@@ -141,6 +145,14 @@ Specify to clear or create scratch buffer with ARG"
 ;;; ================================================================
 ;;; programming
 ;;; ================================================================
+
+;; grep
+(use-package deadgrep
+  :ensure t
+  :config
+  (setq deadgrep-extra-arguments '("--sort=path"))
+  :bind
+  ("C-c g" . deadgrep))
 
 ;; Git
 (use-package magit :ensure t)
