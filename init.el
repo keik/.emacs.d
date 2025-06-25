@@ -99,6 +99,8 @@ Specify to clear or create scratch buffer with ARG"
 ;; minibuffer
 
 (fido-vertical-mode)
+(use-package orderless
+  :ensure t)
 (add-hook 'minibuffer-setup-hook
           (lambda ()
             (setq-local completion-styles '(orderless))) t)
