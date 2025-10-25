@@ -122,6 +122,14 @@ Specify to clear or create scratch buffer with ARG"
   (find-file file)
   (recentf-add-file file))
 (global-set-key (kbd "C-x C-r") 'my/recentf-open)
+(use-package icomplete
+  :config
+  (defun my/fido-backward-delete ()
+    "Delete one character backward instead of deleting directory."
+    (interactive)
+    (delete-char -1))
+  (define-key icomplete-fido-mode-map (kbd "DEL") 'my/fido-backward-delete)
+  (define-key icomplete-fido-mode-map (kbd "TAB") 'icomplete-force-complete))
 
 ;; theme
 
