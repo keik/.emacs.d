@@ -290,4 +290,16 @@ Specify to clear or create scratch buffer with ARG"
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
   (setq dumb-jump-force-searcher 'ag))
 
+(setq treesit-language-source-alist
+      '((json "https://github.com/tree-sitter/tree-sitter-json")
+        (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+        (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+        (go "https://github.com/tree-sitter/tree-sitter-go")))
+(dolist (element treesit-language-source-alist)
+  (let* ((lang (car element)))
+    (if (treesit-language-available-p lang)
+        (message "treesit: %s is already installed" lang)
+      (message "treesit: %s is not installed" lang)
+      (treesit-install-language-grammar lang))))
+
 ;;; init.el ends here
