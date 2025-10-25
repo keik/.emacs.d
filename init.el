@@ -178,32 +178,101 @@ Specify to clear or create scratch buffer with ARG"
   ("C-c g" . deadgrep))
 
 ;; Git
+
 (use-package magit :ensure t)
 
-;; LSP
-(use-package lsp-mode
-  :ensure t
-  :init
-  (setq lsp-keymap-prefix "C-l")
-  (setq read-process-output-max (* 1024 1024))
-  (setq gc-cons-threshold 100000000)
-  (setq lsp-idle-delay 1.000)
-  (setq lsp-enable-file-watchers nil)
-  (setq lsp-disabled-clients '(ruby-ls ruby-lsp-ls ruby-syntax-tree-ls rubocop-ls typeprof-ls))
+;; misc
+
+(use-package company :ensure t)
+(use-package yafolding :ensure t
   :hook
-  (ruby-mode . lsp)
-  (typescript-ts-mode . lsp)
-  ;; (tsx-ts-mode-hook . lsp)
-  (go-mode . lsp)
-  )
-;; don't work above settings for some reason
-(add-hook 'tsx-ts-mode-hook 'lsp)
+  (ruby-mode . yafolding-mode)
+  :bind
+  ("C-c f" . yafolding-toggle-element))
+(use-package string-inflection :ensure t :bind ("C-c i" . string-inflection-cycle))
 
-(use-package lsp-ui :ensure t)
-(setq lsp-sorbet-as-add-on t)
-(setq lsp-sorbet-use-bundler t)
+;; lint
 
-;; format
+(use-package flymake
+  :hook (prog-mode . flymake-mode)
+  :config
+  (setq flymake-show-diagnostics-at-end-of-line t))
+
+(use-package flymake-eslint
+  :ensure t
+  :custom
+  (flymake-eslint-executable-name "eslint_d"))
+
+(declare-function flymake-eslint-enable "flymake-eslint")
+
+;; LSP
+
+(use-package eglot
+  :ensure t)
+
+;; Each language
+
+(use-package coffee-mode :ensure t :mode "\\.coffee\\'")
+
+(use-package csv-mode :ensure t :mode "\\.csv\\'")
+
+(use-package go-mode
+  :ensure t
+  :mode "\\.go\\'"
+  :hook (go-mode . eglot-ensure)
+  :custom
+  (gofmt-command "goimports")
+  :config
+  (add-hook 'before-save-hook 'gofmt-before-save))
+
+(use-package typescript-ts-mode
+  :ensure t
+  :mode (("\\.ts\\'" . typescript-ts-mode)
+         ("\\.tsx\\'" . tsx-ts-mode)
+         ("\\.mts\\'" . typescript-ts-mode))
+  :hook ((typescript-ts-mode tsx-ts-mode) .
+         (lambda ()
+           (eglot-ensure)
+           (add-hook 'eglot-managed-mode-hook
+                     #'flymake-eslint-enable
+                     nil t))))
+
+(use-package yaml-mode :ensure t)
+
+(use-package markdown-mode :ensure t :mode "\\.md\\'" "\\.markdown\\'")
+
+(use-package protobuf-mode :ensure t :mode "\\.proto\\'")
+
+(use-package ruby-mode :ensure t
+  :config
+  (setq ruby-insert-encoding-magic-comment nil)
+  (add-hook 'ruby-mode-hook
+            (lambda ()
+              (add-hook 'after-save-hook
+                        (lambda ()
+                          (let* ((git-root (locate-dominating-file default-directory ".git"))
+                                 (cmd (format "cd %s && bundle exec stree write %s"
+                                            git-root buffer-file-name)))
+                            (async-shell-command cmd)))  ;; 非同期にしろ
+                        nil t)))
+  (bind-keys :map ruby-mode-map ("M-." . dumb-jump-go)))
+
+;; (use-package ruby-mode :ensure t
+;;   :config
+;;   ;; https://emacs.stackexchange.com/questions/5452/before-save-hook-for-cc-mode
+;;   (add-hook 'ruby-mode-hook (lambda () (add-hook 'after-save-hook (lambda () (shell-command (format "cd %s && bundle ex stree write %s" (locate-dominating-file default-directory ".git") buffer-file-name))) nil t)))
+;;   (setq ruby-insert-encoding-magic-comment nil)
+;;   (bind-keys :map ruby-mode-map
+;;              ("M-." . dumb-jump-go))
+;;   )
+(use-package rspec-mode :ensure t
+  :config
+  (add-hook 'after-init-hook 'inf-ruby-switch-setup)
+  (setenv "PAGER" (executable-find "cat")))
+(use-package inf-ruby :ensure t)
+
+;; formatter
+
 (defun my/use-prettier-from-node-modules ()
   "Use node_modules/.bin/prettier if exists."
   (let* ((root (locate-dominating-file
@@ -214,97 +283,17 @@ Specify to clear or create scratch buffer with ARG"
                      "prettier")))
     (when (and prettier (file-executable-p prettier))
       (setq-local prettier-js-command prettier))))
+
 (use-package prettier-js
   :ensure t
   :hook
-  (web-mode . prettier-js-mode)
+  (prettier-js-mode . my/use-prettier-from-node-modules)
+  (tsx-ts-mode-hook . prettier-js-mode)
   (typescript-ts-mode . prettier-js-mode)
-  ;; (tsx-ts-mode-hook . prettier-js-mode)
-  (prettier-js-mode . my/use-prettier-from-node-modules))
-;; don't work above settings for some reason
-(add-hook 'tsx-ts-mode-hook 'prettier-js-mode)
-
-;; lint
-(use-package flycheck
-  :ensure t
-  :config
-  (setq-default flycheck-disabled-checkers
-                '(
-                  ember-template
-                  handlebars
-                  chef-foodcritic
-                  ruby-standard
-                  ruby-reek
-                  ruby-rubylint
-                  ruby-chef-cookstyle
-                  ruby-jruby
-                  ruby-rubocop
-                  typescript-tslint
-                  )
-                )
-
-  (flycheck-define-checker bundle/ruby-rubocop
-    "A Ruby syntax and style checker using the RuboCop tool.
-   Puts .dir-locals.el to each project root with contents
-
-     ((ruby-mode . ((flycheck-checker . bundle/ruby-rubocop))))
-
-  "
-    :command
-    ("bundle" "ex" "rubocop" "--format" "emacs"
-     (config-file "--config" flycheck-rubocoprc)
-     source)
-    :error-patterns
-    ((warning line-start
-              (file-name) ":" line ":" column ": " (or "C" "W") ": " (message)
-              line-end)
-     (error line-start
-            (file-name) ":" line ":" column ": " (or "E" "F") ": " (message)
-            line-end))
-    :modes (ruby-mode)
-    )
-  (add-to-list 'flycheck-checkers 'bundle/ruby-rubocop t)
-
-  :hook
-  (emacs-lisp-mode . flycheck-mode)
-  )
-
-;; misc
-(use-package company :ensure t)
-(use-package yafolding :ensure t
-  :hook
-  (ruby-mode . yafolding-mode)
-  :bind
-  ("C-c f" . yafolding-toggle-element))
-(use-package string-inflection :ensure t :bind ("C-c i" . string-inflection-cycle))
-
-;; each languages
-(use-package coffee-mode :ensure t :mode "\\.coffee$")
-(use-package csv-mode :ensure t :mode "\\.csv$")
-(use-package go-mode :ensure t :mode "\\.go$"
-  :config
-  (setq gofmt-command "goimports")
-  (add-hook 'before-save-hook 'gofmt-before-save))
-(use-package ruby-mode :ensure t
-  :config
-  ;; https://emacs.stackexchange.com/questions/5452/before-save-hook-for-cc-mode
-  (add-hook 'ruby-mode-hook (lambda () (add-hook 'before-save-hook 'lsp-format-buffer nil 'local)))
-  (add-hook 'ruby-mode-hook (lambda () (add-hook 'after-save-hook (lambda () (shell-command (format "cd %s && bundle ex stree write %s" (locate-dominating-file default-directory ".git") buffer-file-name))) nil t)))
-  (setq ruby-insert-encoding-magic-comment nil)
-  (bind-keys :map ruby-mode-map
-             ("M-." . dumb-jump-go))
-  )
-(use-package rspec-mode :ensure t
-  :config
-  (add-hook 'after-init-hook 'inf-ruby-switch-setup)
-  (setenv "PAGER" (executable-find "cat")))
-(use-package inf-ruby :ensure t)
-(use-package typescript-ts-mode :ensure t :mode "\\.mts$" "\\.ts$" "\\.tsx$")
-(use-package yaml-mode :ensure t)
-(use-package markdown-mode :ensure t :mode "\\.md$" "\\.markdown$")
-(use-package protobuf-mode :ensure t :mode "\\.proto$")
+  (web-mode . prettier-js-mode))
 
 ;; jump
+
 (use-package dumb-jump
   :ensure t
   :config
