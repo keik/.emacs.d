@@ -104,11 +104,24 @@ Specify to clear or create scratch buffer with ARG"
 (add-hook 'minibuffer-setup-hook
           (lambda ()
             (setq-local completion-styles '(orderless))) t)
-(global-set-key (kbd "C-x C-r") 'recentf-open)
 (require 'recentf)
 (recentf-mode 1)
 (setq recentf-max-menu-items 1000)
 (setq recentf-max-saved-items 1000)
+(defun my/recentf-open (file)
+  "Open FILE from recentf-list with fixed order."
+  (interactive
+   (list
+    (completing-read "Open recent file: "
+                     (lambda (string pred action)
+                       (if (eq action 'metadata)
+                           '(metadata (display-sort-function . identity)
+                                      (cycle-sort-function . identity))
+                         (complete-with-action action recentf-list string pred)))
+                     nil t)))
+  (find-file file)
+  (recentf-add-file file))
+(global-set-key (kbd "C-x C-r") 'my/recentf-open)
 
 ;; theme
 
