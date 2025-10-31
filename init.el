@@ -234,7 +234,10 @@ Specify to clear or create scratch buffer with ARG"
          (lambda ()
            (eglot-ensure)
            (add-hook 'eglot-managed-mode-hook
-                     #'flymake-eslint-enable
+                     (lambda ()
+                       (when-let ((root (locate-dominating-file default-directory ".git")))
+                         (setq-local flymake-eslint-project-root root))
+                       (flymake-eslint-enable))
                      nil t))))
 
 (use-package yaml-mode :ensure t)
