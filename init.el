@@ -197,7 +197,7 @@ Specify to clear or create scratch buffer with ARG"
 (use-package flymake
   :hook (prog-mode . flymake-mode)
   :config
-  (setq flymake-show-diagnostics-at-end-of-line t))
+  (setq flymake-show-diagnostics-at-end-of-line nil))
 
 (use-package flymake-eslint
   :ensure t
