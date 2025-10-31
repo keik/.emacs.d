@@ -99,6 +99,7 @@ Specify to clear or create scratch buffer with ARG"
 ;; minibuffer
 
 (fido-vertical-mode)
+(keymap-unset minibuffer-local-completion-map "SPC") ;; for using with fido-vertical-mode
 (use-package orderless
   :ensure t)
 (add-hook 'minibuffer-setup-hook
