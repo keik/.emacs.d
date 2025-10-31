@@ -257,7 +257,7 @@ Specify to clear or create scratch buffer with ARG"
                           (let* ((git-root (locate-dominating-file default-directory ".git"))
                                  (cmd (format "cd %s && bundle exec stree write %s"
                                             git-root buffer-file-name)))
-                            (async-shell-command cmd)))  ;; 非同期にしろ
+                            (async-shell-command cmd)))
                         nil t)))
   (bind-keys :map ruby-mode-map ("M-." . dumb-jump-go)))
 
