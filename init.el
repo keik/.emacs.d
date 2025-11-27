@@ -142,7 +142,7 @@ Specify to clear or create scratch buffer with ARG"
   :config
    (load-theme 'cyberpunk t)
    (set-face-background 'default "unspecified-bg")
-   (set-face-foreground 'font-lock-comment-face "#AAAAAA"))
+   (set-face-foreground 'font-lock-comment-face "#FFFFFF"))
 
 ; whitespaces
 (global-whitespace-mode)
