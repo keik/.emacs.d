@@ -36,6 +36,9 @@
 ;; buffer and window
 
 (global-set-key (kbd "C-x C-b") 'bs-show)
+(add-to-list 'display-buffer-alist
+             '("\\*Async Shell Command\\*"
+               (display-buffer-no-window)))
 
 ; mode line
 (setq eol-mnemonic-dos "CRLF")
